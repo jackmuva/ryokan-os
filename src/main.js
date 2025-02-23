@@ -6,7 +6,6 @@ import { SCENE_KEYS } from './scenes/scene-keys.js';
 
 const game = new Phaser.Game({
 	parent: "game-container",
-	type: Phaser.AUTO,
 	//scene: [array of scenes]
 });
 

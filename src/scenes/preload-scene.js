@@ -5,25 +5,26 @@ export class PreloadScene extends Phaser.Scene {
 	constructor() {
 		super({
 			key: SCENE_KEYS.PRELOAD_SCENE,
-			//active: use if we want scene to start by default
+			//active: true
 		});
-		console.log(SCENE_KEYS.PRELOAD_SCENE);
 	}
 
 	init() {
-
+		console.log('init');
 	}
 
 	preload() {
+		console.log('preloading');
 		//good for loading assets
-		this.load.image({
-			key: 'background',
-			url: 'assets/images/battle-backgrounds/town-background.png'
-		});
+		this.load.image(
+			'background',
+			'assets/images/battle-backgrounds/town-background.png'
+		);
 	}
 
 	create() {
-		this.textures.get('preload');
+		console.log('create');
+		console.log(this.textures.get('background'));
 	}
 
 	update() {
