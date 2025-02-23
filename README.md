@@ -1,6 +1,6 @@
 # ryokan-os
 ## Getting Started
-Run `npx http-server` to start web server
+Run `live-server` to start web server
 
 ## Current Plan
 Ryokan is a 2D metaverse application with nostalgic RPG components. Ryokan's aim is to be a fulfilling experience 
