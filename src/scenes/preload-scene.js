@@ -36,7 +36,8 @@ export class PreloadScene extends Phaser.Scene {
 
 	create() {
 		console.log('create');
-		this.add.image(0, 0, BATTLE_BACKGROUND_ASSET_KEYS.TOWN).setOrigin(0);
+		const battle_scene = this.add.image(0, 0, BATTLE_BACKGROUND_ASSET_KEYS.TOWN).setOrigin(0, 0);
+		battle_scene.setDisplaySize(Number(this.sys.game.config.width), Number(this.sys.game.config.height));
 	}
 
 	update() {
