@@ -2,8 +2,9 @@ export const BATTLE_BACKGROUND_ASSET_KEYS = Object.freeze({
 	TOWN: 'TOWN',
 });
 
-export const ENEMY_ASSET_KEYS = Object.freeze({
-	BANDIT: 'BANDIT',
+export const CHARACTER_ASSET_KEYS = Object.freeze({
+	BLONDE_ELF: 'BLONDE_ELF',
+	MAIN_CHARACTER: 'MAIN_CHARACTER'
 });
 
 export const BATTLE_ASSET_KEYS = Object.freeze({

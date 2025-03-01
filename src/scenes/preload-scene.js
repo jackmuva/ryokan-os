@@ -1,4 +1,4 @@
-import { BATTLE_BACKGROUND_ASSET_KEYS } from '../assets/asset-keys.js';
+import { BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS } from '../assets/asset-keys.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 
@@ -20,24 +20,20 @@ export class PreloadScene extends Phaser.Scene {
 			BATTLE_BACKGROUND_ASSET_KEYS.TOWN,
 			'assets/images/battle-backgrounds/town-background.png'
 		);
-		//this.load.image(
-		//	BATTLE_BACKGROUND_ASSET_KEYS.TOWN,
-		//	'assets/images/battle-backgrounds/town-background.png'
-		//);
-		//this.load.image(
-		//	BATTLE_BACKGROUND_ASSET_KEYS.TOWN,
-		//	'assets/images/battle-backgrounds/town-background.png'
-		//);
-		//this.load.image(
-		//	BATTLE_BACKGROUND_ASSET_KEYS.TOWN,
-		//	'assets/images/battle-backgrounds/town-background.png'
-		//);
+		this.load.image(
+			CHARACTER_ASSET_KEYS.BLONDE_ELF,
+			'assets/characters/blonde_elf.png'
+		);
+		this.load.image(
+			CHARACTER_ASSET_KEYS.MAIN_CHARACTER,
+			'assets/characters/main_char.png'
+		);
+
 	}
 
 	create() {
-		console.log('create');
-		const battle_scene = this.add.image(0, 0, BATTLE_BACKGROUND_ASSET_KEYS.TOWN).setOrigin(0, 0);
-		battle_scene.setDisplaySize(Number(this.sys.game.config.width), Number(this.sys.game.config.height));
+		//starts a new scene and ends this scene, cleaning up all objects with this scene
+		this.scene.start(SCENE_KEYS.BATTLE_SCENE);
 	}
 
 	update() {
