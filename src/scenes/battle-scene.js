@@ -78,7 +78,7 @@ export class BattleScene extends Phaser.Scene {
 		]);
 
 		this.createMainInfoPane();
-		this.add.container(0, 0, [
+		this.add.container(520, 0, [
 			this.createMainInfoSubPane(),
 			this.add.text(55, 22, BATTLE_MENU_OPTIONS.FIGHT, battleUiStyle),
 			this.add.text(240, 22, BATTLE_MENU_OPTIONS.ITEM, battleUiStyle),
@@ -87,7 +87,7 @@ export class BattleScene extends Phaser.Scene {
 		]);
 
 		this.add.container(0, 0, [
-			this.add.text(55, 22, "slask", battleUiStyle),
+			this.add.text(55, 22, "slash", battleUiStyle),
 			this.add.text(240, 22, "-", battleUiStyle),
 			this.add.text(55, 70, "-", battleUiStyle),
 			this.add.text(240, 70, "-", battleUiStyle),
