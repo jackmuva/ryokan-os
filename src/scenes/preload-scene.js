@@ -1,4 +1,4 @@
-import { BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS } from '../assets/asset-keys.js';
+import { BATTLE_ASSET_KEYS, BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS } from '../assets/asset-keys.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 
@@ -27,6 +27,14 @@ export class PreloadScene extends Phaser.Scene {
 		this.load.image(
 			CHARACTER_ASSET_KEYS.MAIN_CHARACTER,
 			'assets/characters/main_char.png'
+		);
+		this.load.image(
+			BATTLE_ASSET_KEYS.HEALTH_BAR_BACKGROUND,
+			'assets/images/menu-background/menu.png'
+		);
+		this.load.image(
+			HEALTH_BAR_ASSET_KEYS.MIDDLE,
+			'assets/images/menu-background/healthbar.png'
 		);
 
 	}
