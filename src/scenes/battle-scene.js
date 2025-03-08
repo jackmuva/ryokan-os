@@ -2,6 +2,19 @@ import { BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, BATTLE_ASSET_KEYS, 
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 
+
+const BATTLE_MENU_OPTIONS = Object.freeze({
+	FIGHT: 'FIGHT',
+	PASS: 'PASS',
+	ITEM: 'ITEM',
+	FLEE: 'FLEE'
+});
+
+const battleUiStyle = {
+	color: 'black',
+	fontSize: '30px'
+}
+
 export class BattleScene extends Phaser.Scene {
 	constructor() {
 		super({
@@ -63,12 +76,43 @@ export class BattleScene extends Phaser.Scene {
 				fontStyle: 'italic'
 			}),
 		]);
+
+		this.createMainInfoPane();
+		this.add.container(0, 0, [
+			this.createMainInfoSubPane(),
+			this.add.text(55, 22, BATTLE_MENU_OPTIONS.FIGHT, battleUiStyle),
+			this.add.text(240, 22, BATTLE_MENU_OPTIONS.ITEM, battleUiStyle),
+			this.add.text(55, 70, BATTLE_MENU_OPTIONS.PASS, battleUiStyle),
+			this.add.text(240, 70, BATTLE_MENU_OPTIONS.FLEE, battleUiStyle),
+		]);
+
+		this.add.container(0, 0, [
+			this.add.text(55, 22, "slask", battleUiStyle),
+			this.add.text(240, 22, "-", battleUiStyle),
+			this.add.text(55, 70, "-", battleUiStyle),
+			this.add.text(240, 70, "-", battleUiStyle),
+		]);
 	}
 
 	createHealth(x, y) {
 		const middle = this.add.image(x, y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setOrigin(0, 0.5).setScale(1, 0.5);
 		middle.displayWidth = 260;
 		return this.add.container(x, y, [middle]);
+	}
+
+	createMainInfoPane() {
+		const padding = 4;
+		const rectHeight = 132;
+		this.add.rectangle(0 + padding, 0 + padding, this.scale.width - (padding * 2), rectHeight,
+			0xede4f3, 1).setOrigin(0).setStrokeStyle(8, 0xe4434a, 1);
+	}
+
+	createMainInfoSubPane() {
+		const padding = 4;
+		const rectWidth = 500;
+		const rectHeight = 132;
+		return this.add.rectangle(0 + padding, 0 + padding, rectWidth, rectHeight,
+			0xede4f3, 1).setOrigin(0).setStrokeStyle(8, 0x905ac2, 1);
 	}
 
 }
