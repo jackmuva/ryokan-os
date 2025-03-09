@@ -6,7 +6,9 @@ import { BattleMenu } from '../battle/ui/menu/battle-menu.js';
 
 
 export class BattleScene extends Phaser.Scene {
+	/** @type {BattleMenu} **/
 	battleMenu;
+
 	constructor() {
 		super({
 			key: SCENE_KEYS.BATTLE_SCENE,
@@ -72,6 +74,10 @@ export class BattleScene extends Phaser.Scene {
 		this.battleMenu.showMainBattleMenu();
 	}
 
+	/** 
+	 * @param {number} x 
+	 * @param {number} y 
+	**/
 	createHealth(x, y) {
 		const middle = this.add.image(x, y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setOrigin(0, 0.5).setScale(1, 0.5);
 		middle.displayWidth = 260;
