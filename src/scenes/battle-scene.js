@@ -1,21 +1,12 @@
 import { BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, BATTLE_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS } from '../assets/asset-keys.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
+import { BattleMenu } from '../battle/ui/menu/battle-menu.js';
 
 
-const BATTLE_MENU_OPTIONS = Object.freeze({
-	FIGHT: 'FIGHT',
-	PASS: 'PASS',
-	ITEM: 'ITEM',
-	FLEE: 'FLEE'
-});
-
-const battleUiStyle = {
-	color: 'black',
-	fontSize: '30px'
-}
 
 export class BattleScene extends Phaser.Scene {
+	battleMenu;
 	constructor() {
 		super({
 			key: SCENE_KEYS.BATTLE_SCENE,
@@ -77,21 +68,8 @@ export class BattleScene extends Phaser.Scene {
 			}),
 		]);
 
-		this.createMainInfoPane();
-		this.add.container(520, 0, [
-			this.createMainInfoSubPane(),
-			this.add.text(55, 22, BATTLE_MENU_OPTIONS.FIGHT, battleUiStyle),
-			this.add.text(240, 22, BATTLE_MENU_OPTIONS.ITEM, battleUiStyle),
-			this.add.text(55, 70, BATTLE_MENU_OPTIONS.PASS, battleUiStyle),
-			this.add.text(240, 70, BATTLE_MENU_OPTIONS.FLEE, battleUiStyle),
-		]);
-
-		this.add.container(0, 0, [
-			this.add.text(55, 22, "slash", battleUiStyle),
-			this.add.text(240, 22, "-", battleUiStyle),
-			this.add.text(55, 70, "-", battleUiStyle),
-			this.add.text(240, 70, "-", battleUiStyle),
-		]);
+		this.battleMenu = new BattleMenu(this);
+		this.battleMenu.showMainBattleMenu();
 	}
 
 	createHealth(x, y) {
@@ -99,20 +77,4 @@ export class BattleScene extends Phaser.Scene {
 		middle.displayWidth = 260;
 		return this.add.container(x, y, [middle]);
 	}
-
-	createMainInfoPane() {
-		const padding = 4;
-		const rectHeight = 132;
-		this.add.rectangle(0 + padding, 0 + padding, this.scale.width - (padding * 2), rectHeight,
-			0xede4f3, 1).setOrigin(0).setStrokeStyle(8, 0xe4434a, 1);
-	}
-
-	createMainInfoSubPane() {
-		const padding = 4;
-		const rectWidth = 500;
-		const rectHeight = 132;
-		return this.add.rectangle(0 + padding, 0 + padding, rectWidth, rectHeight,
-			0xede4f3, 1).setOrigin(0).setStrokeStyle(8, 0x905ac2, 1);
-	}
-
 }
