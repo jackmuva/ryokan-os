@@ -54,6 +54,18 @@ export class BattleMenu {
 		this.moveSelectionSubBattleMenuContainerGameObject.setAlpha(0);
 	}
 
+	/** @param {import('../../../common/direction.js').Direction | 'OK' | 'CANCEL' } input */
+	handlePlayerInput(input) {
+		if (input === 'CANCEL') {
+			this.hideMonsterAttackSubMenu();
+			this.showMainBattleMenu();
+			return;
+		} else if (input === 'OK') {
+			this.hideMainBattleMenu();
+			this.showMonsterAttackSubMenu();
+		}
+	}
+
 	createMainInfoPane() {
 		const padding = 4;
 		const rectHeight = 132;
