@@ -3,8 +3,6 @@ import { exhaustiveGuard } from "../../../utils/guard.js";
 import { BATTLE_MOVE_OPTIONS, BATTLE_MENU_OPTIONS, ACTIVE_BATTLE_MENU } from "./battle-menu-options.js";
 import { BATTLE_UI_TEXT_STYLE } from "./battle-menu-config.js";
 
-
-
 const BATTLE_MENU_CURSOR_POS = Object.freeze({
 	x: 45,
 	y: 36
@@ -28,8 +26,6 @@ export class BattleMenu {
 	selectedBattleMenuOption;
 	/** @type {Phaser.GameObjects.Image} **/
 	attackBattleMenuCursorPhaserImageGameObject;
-	/** @type {import("./battle-menu-options.js").BattleMoveOptions} */
-	selectedBattleMoveOption;
 	/** @type import("./battle-menu-options.js").ActiveBattleMenu */
 	activeBattleMenu;
 	/** @type {Array<string>} */
@@ -38,8 +34,6 @@ export class BattleMenu {
 	queuedInfoPanelCallback;
 	/** @type{boolean} */
 	waitingForPlayerInput;
-	/** @type{number | undefined} */
-	selecteAttackIndex;
 
 
 	/** @param {Phaser.Scene} scene **/
@@ -51,7 +45,6 @@ export class BattleMenu {
 		this.queuedInfoPanelCallback = undefined;
 		this.queuedInfoPanelMessages = [];
 		this.waitingForPlayerInput = false;
-		this.selectedAttackIndex = undefined;
 		this.createMainInfoPane();
 		this.createMainBattleMenu();
 		this.createMonsterAttackSubmenu();
@@ -124,31 +117,10 @@ export class BattleMenu {
 	}
 
 
-	handlePlayerChooseAttack() {
-		let selectedMoveIndex = 0;
-		switch (this.selectedBattleMoveOption) {
-			case BATTLE_MOVE_OPTIONS.ATTACK_1:
-				selectedMoveIndex = 0
-				break;
-			case BATTLE_MOVE_OPTIONS.ATTACK_2:
-				selectedMoveIndex = 1
-				break;
-			case BATTLE_MOVE_OPTIONS.ATTACK_3:
-				selectedMoveIndex = 2
-				break;
-			case BATTLE_MOVE_OPTIONS.ATTACK_4:
-				selectedMoveIndex = 3
-				break;
-			default:
-				exhaustiveGuard(this.selectedBattleMoveOption);
-		}
-		this.selectedAttackIndex = selectedMoveIndex;
-	}
-
 	/** 
-	* @param {Array<string>} messages 
-	* @param {() => void} [callback] 
-	*/
+* @param {Array<string>} messages 
+* @param {() => void} [callback] 
+*/
 	updateInfoPaneMessagesAndWaitForInput(messages, callback) {
 		this.queuedInfoPanelMessages = messages;
 		this.queuedInfoPanelCallback = callback;
@@ -233,16 +205,26 @@ export class BattleMenu {
 		this.hideMainBattleMenu();
 	}
 
-	createMonsterAttackSubmenu() {
-		this.attackBattleMenuCursorPhaserImageGameObject = this.scene.add.image(42, 38, UI_ASSET_KEYS.CURSOR, 0).setOrigin(0.5).setScale(2);
-		this.moveSelectionSubBattleMenuContainerGameObject = this.scene.add.container(520, 0, [
-			this.scene.add.text(55, 22, "slash", BATTLE_UI_TEXT_STYLE),
-			this.scene.add.text(240, 22, "-", BATTLE_UI_TEXT_STYLE),
-			this.scene.add.text(55, 70, "-", BATTLE_UI_TEXT_STYLE),
-			this.scene.add.text(240, 70, "-", BATTLE_UI_TEXT_STYLE),
-			this.attackBattleMenuCursorPhaserImageGameObject,
-		]);
-		this.hideMonsterAttackSubMenu();
+	moveMainBattleMenuCursor() {
+		if (this.activeBattleMenu !== ACTIVE_BATTLE_MENU.BATTLE_MAIN) {
+			return;
+		}
+		switch (this.selectedBattleMenuOption) {
+			case BATTLE_MENU_OPTIONS.FIGHT:
+				this.mainBattleMenuCursorPhaserImageGameObject.setPosition(BATTLE_MENU_CURSOR_POS.x, BATTLE_MENU_CURSOR_POS.y);
+				return;
+			case BATTLE_MENU_OPTIONS.ITEM:
+				this.mainBattleMenuCursorPhaserImageGameObject.setPosition(228, BATTLE_MENU_CURSOR_POS.y);
+				return;
+			case BATTLE_MENU_OPTIONS.PASS:
+				this.mainBattleMenuCursorPhaserImageGameObject.setPosition(BATTLE_MENU_CURSOR_POS.x, 86);
+				return;
+			case BATTLE_MENU_OPTIONS.FLEE:
+				this.mainBattleMenuCursorPhaserImageGameObject.setPosition(228, 86);
+				return;
+			default:
+				exhaustiveGuard(this.selectedBattleMenuOption);
+		}
 	}
 
 
