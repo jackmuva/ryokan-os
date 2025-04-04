@@ -18,24 +18,40 @@ export class AttackMenu {
 	selectedMove;
 	/** @type{number | undefined} */
 	selectedMoveIndex;
+	/** @type {Phaser.GameObjects.Container} **/
+	subMenuObject;
 
 	/** @param {Phaser.Scene} scene **/
 	constructor(scene) {
 		this.scene = scene;
 		this.selectedMove = BATTLE_MOVE_OPTIONS.ATTACK_1;
 		this.selectedMoveIndex = undefined;
+		this.createSubMenu();
 	}
-	createMonsterAttackSubmenu() {
+
+	createSubMenu() {
 		this.cursorImage = this.scene.add.image(42, 38, UI_ASSET_KEYS.CURSOR, 0).setOrigin(0.5).setScale(2);
-		this.moveSelectionSubBattleMenuContainerGameObject = this.scene.add.container(520, 0, [
+		this.subMenuObject = this.scene.add.container(520, 0, [
 			this.scene.add.text(55, 22, "slash", BATTLE_UI_TEXT_STYLE),
 			this.scene.add.text(240, 22, "-", BATTLE_UI_TEXT_STYLE),
 			this.scene.add.text(55, 70, "-", BATTLE_UI_TEXT_STYLE),
 			this.scene.add.text(240, 70, "-", BATTLE_UI_TEXT_STYLE),
 			this.cursorImage,
 		]);
+		this.hideSubMenu();
 	}
 
+	showSubMenu() {
+		this.subMenuObject.setAlpha(1);
+
+		this.selectedBattleMoveOption = BATTLE_MOVE_OPTIONS.ATTACK_1;
+		this.cursorImage.setPosition(BATTLE_MENU_CURSOR_POS.x, BATTLE_MENU_CURSOR_POS.y);
+	}
+
+	hideSubMenu() {
+		this.subMenuObject.setAlpha(0);
+		this.selectedMoveIndex = undefined;
+	}
 
 	moveBattleMoveCursor() {
 		switch (this.selectedMove) {
@@ -57,7 +73,7 @@ export class AttackMenu {
 	}
 
 	/** @param {import('../../../../common/direction.js').Direction} direction */
-	updateSelectedBattleMoveOptionFromInput(direction) {
+	updateMoveFromInput(direction) {
 		if (this.selectedMove === BATTLE_MOVE_OPTIONS.ATTACK_1) {
 			switch (direction) {
 				case DIRECTION.RIGHT:
@@ -146,6 +162,4 @@ export class AttackMenu {
 		}
 		this.selectedMoveIndex = selectedMoveIndex;
 	}
-
-
 }
