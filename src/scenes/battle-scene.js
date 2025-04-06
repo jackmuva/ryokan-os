@@ -33,6 +33,7 @@ export class BattleScene extends Phaser.Scene {
 		const main_char = this.add.image(256, 500, CHARACTER_ASSET_KEYS.MAIN_CHARACTER, 0).setFlipX(true);
 		main_char.setDisplaySize(Number(this.sys.game.config.width) / 5, Number(this.sys.game.config.height) / 5);
 
+		const playerHealth = new HealthBar(this, 20, 34).container;
 		const main_char_name = this.add.text(30, 20, CHARACTER_ASSET_KEYS.MAIN_CHARACTER, {
 			color: '#7E3D3F',
 			fontSize: '20px',
@@ -42,7 +43,7 @@ export class BattleScene extends Phaser.Scene {
 				.setOrigin(0)
 				.setDisplaySize(Number(this.sys.game.config.width) / 4, Number(this.sys.game.config.height) / 4),
 			main_char_name,
-			new HealthBar(this, 4, 34).container,
+			playerHealth,
 			this.add.text(main_char_name.width + 35, 23, 'L5', {
 				color: '#ED474B',
 				fontSize: '16px',
@@ -58,6 +59,7 @@ export class BattleScene extends Phaser.Scene {
 			}).setOrigin(1, 0),
 		]);
 
+		const enemyHealth = new HealthBar(this, 20, 34).container;
 		const enemy_name = this.add.text(30, 20, CHARACTER_ASSET_KEYS.BLONDE_ELF, {
 			color: '#7E3D3F',
 			fontSize: '20px',
@@ -67,7 +69,7 @@ export class BattleScene extends Phaser.Scene {
 				.setOrigin(0)
 				.setDisplaySize(Number(this.sys.game.config.width) / 4, Number(this.sys.game.config.height) / 4),
 			enemy_name,
-			new HealthBar(this, 4, 34).container,
+			enemyHealth,
 			this.add.text(main_char_name.width + 35, 23, 'L5', {
 				color: '#ED474B',
 				fontSize: '16px',

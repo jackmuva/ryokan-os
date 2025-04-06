@@ -12,6 +12,7 @@ export const BATTLE_ASSET_KEYS = Object.freeze({
 });
 export const HEALTH_BAR_ASSET_KEYS = Object.freeze({
 	MIDDLE: 'MIDDLE',
+	SHADOW: 'SHADOW'
 });
 
 export const UI_ASSET_KEYS = Object.freeze({

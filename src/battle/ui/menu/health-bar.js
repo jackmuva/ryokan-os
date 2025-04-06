@@ -16,6 +16,8 @@ export class HealthBar {
 	scaleY;
 	/** @type {Phaser.GameObjects.Image} */
 	middle;
+	/** @type {Phaser.GameObjects.Image} */
+	shadow;
 	/** @type {Phaser.GameObjects.Container} */
 	healthBarContainer;
 
@@ -26,14 +28,14 @@ export class HealthBar {
 	*/
 	constructor(scene, x, y) {
 		this.scene = scene;
-		this.fullWidtn = 260;
+		this.fullWidth = 200;
 		this.scaleX = 1;
 		this.scaleY = 0.5;
 		this.x = x;
 		this.y = y;
 		this.healthBarContainer = this.scene.add.container(x, y, []);
 		this.createHealth();
-		this.setMeterPercentage(1);
+		this.setMeterPercentage(0.5);
 	}
 
 	get container() {
@@ -44,16 +46,39 @@ export class HealthBar {
 	 * @returns {void}
 	**/
 	createHealth() {
-		this.middle = this.scene.add.image(this.x, this.y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setOrigin(0, 0.5).setScale(this.scaleX, this.scaleY);
-		this.middle.displayWidth = this.fullWidtn;
-		this.healthBarContainer = this.scene.add.container(this.x, this.y, [this.middle]);
+		this.middle = this.scene.add.image(this.x, this.y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setDepth(1).setOrigin(0, 0.5).setScale(this.scaleX, this.scaleY);
+		this.shadow = this.scene.add.image(this.x, this.y, HEALTH_BAR_ASSET_KEYS.SHADOW).setDepth(0).setOrigin(0, 0.5).setScale(this.scaleX, this.scaleY);
+		this.middle.displayWidth = this.fullWidth;
+		this.shadow.displayWidth = this.fullWidth;
+		this.healthBarContainer = this.scene.add.container(this.x, this.y, [this.shadow, this.middle]);
 	}
 
 	/**
 	* @param {number} percent
 	*/
 	setMeterPercentage(percent = 1) {
-		const width = this.fullWidtn * percent;
+		const width = this.fullWidth * percent;
 		this.middle.displayWidth = width;
+	}
+
+	/**
+	* @param {number} percent
+	* @param {object} options
+	*/
+	setMeterAnimation(percent, options) {
+		const width = this.fullWidth * percent;
+
+		this.scene.tweens.add({
+			targets: this.middle,
+			displayWidth: width,
+			duration: options?.duration || 1000,
+			ease: Phaser.Math.Easing.Sine.Out,
+			onUpdate: () => {
+				const isVisible = this.middle.displayWidth > 0;
+				this.middle.visible = isVisible;
+
+			},
+			onComplete: options?.callback
+		});
 	}
 }

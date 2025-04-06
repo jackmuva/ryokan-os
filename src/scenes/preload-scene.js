@@ -36,12 +36,17 @@ export class PreloadScene extends Phaser.Scene {
 			HEALTH_BAR_ASSET_KEYS.MIDDLE,
 			'assets/images/menu-background/healthbar.png'
 		);
+		this.load.image(
+			HEALTH_BAR_ASSET_KEYS.SHADOW,
+			'assets/images/menu-background/healthbar-shadow.png'
+		);
+
 
 		this.load.image(
 			UI_ASSET_KEYS.CURSOR,
 			'assets/images/ui/cursor.png'
 		);
-}
+	}
 
 	create() {
 		//starts a new scene and ends this scene, cleaning up all objects with this scene
