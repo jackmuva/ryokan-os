@@ -41,7 +41,7 @@ export class PreloadScene extends Phaser.Scene {
 			UI_ASSET_KEYS.CURSOR,
 			'assets/images/ui/cursor.png'
 		);
-	}
+}
 
 	create() {
 		//starts a new scene and ends this scene, cleaning up all objects with this scene

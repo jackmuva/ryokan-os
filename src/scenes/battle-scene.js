@@ -1,8 +1,10 @@
-import { BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, BATTLE_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS } from '../assets/asset-keys.js';
+import { CHARACTER_ASSET_KEYS, BATTLE_ASSET_KEYS } from '../assets/asset-keys.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { BattleMenu } from '../battle/ui/menu/battle-menu.js';
 import { DIRECTION } from '../common/direction.js';
+import { Background } from '../battle/background.js';
+import { HealthBar } from '../battle/ui/menu/health-bar.js';
 
 
 
@@ -13,6 +15,9 @@ export class BattleScene extends Phaser.Scene {
 	/** @type {Phaser.Types.Input.Keyboard.CursorKeys} **/
 	cursorKeys;
 
+	/** @type {Background} **/
+	background;
+
 	constructor() {
 		super({
 			key: SCENE_KEYS.BATTLE_SCENE,
@@ -20,8 +25,8 @@ export class BattleScene extends Phaser.Scene {
 	}
 
 	create() {
-		const battle_scene = this.add.image(0, 0, BATTLE_BACKGROUND_ASSET_KEYS.TOWN).setOrigin(0, 0);
-		battle_scene.setDisplaySize(Number(this.sys.game.config.width), Number(this.sys.game.config.height));
+		this.background = new Background(this);
+		this.background.showTown();
 
 		const enemy = this.add.image(768, 500, CHARACTER_ASSET_KEYS.BLONDE_ELF, 0);
 		enemy.setDisplaySize(Number(this.sys.game.config.width) / 5, Number(this.sys.game.config.height) / 5);
@@ -37,7 +42,7 @@ export class BattleScene extends Phaser.Scene {
 				.setOrigin(0)
 				.setDisplaySize(Number(this.sys.game.config.width) / 4, Number(this.sys.game.config.height) / 4),
 			main_char_name,
-			this.createHealth(4, 34),
+			new HealthBar(this, 4, 34).container,
 			this.add.text(main_char_name.width + 35, 23, 'L5', {
 				color: '#ED474B',
 				fontSize: '16px',
@@ -62,7 +67,7 @@ export class BattleScene extends Phaser.Scene {
 				.setOrigin(0)
 				.setDisplaySize(Number(this.sys.game.config.width) / 4, Number(this.sys.game.config.height) / 4),
 			enemy_name,
-			this.createHealth(4, 34),
+			new HealthBar(this, 4, 34).container,
 			this.add.text(main_char_name.width + 35, 23, 'L5', {
 				color: '#ED474B',
 				fontSize: '16px',
@@ -118,14 +123,4 @@ export class BattleScene extends Phaser.Scene {
 		}
 	}
 
-	/** 
-	 * @param {number} x the x position to place health bar container
-	 * @param {number} y the y position to place health bar container
-	 * @returns {Phaser.GameObjects.Container}
-	**/
-	createHealth(x, y) {
-		const middle = this.add.image(x, y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setOrigin(0, 0.5).setScale(1, 0.5);
-		middle.displayWidth = 260;
-		return this.add.container(x, y, [middle]);
-	}
 }
