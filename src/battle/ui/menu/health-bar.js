@@ -15,7 +15,7 @@ export class HealthBar {
 	/** @type {number} */
 	scaleY;
 	/** @type {Phaser.GameObjects.Image} */
-	middle;
+	remainingHealth;
 	/** @type {Phaser.GameObjects.Image} */
 	shadow;
 	/** @type {Phaser.GameObjects.Container} */
@@ -35,7 +35,8 @@ export class HealthBar {
 		this.y = y;
 		this.healthBarContainer = this.scene.add.container(x, y, []);
 		this.createHealth();
-		this.setMeterPercentage(0.5);
+		this.setMeterPercentage(1);
+		this.setMeterAnimation(0.7);
 	}
 
 	get container() {
@@ -46,11 +47,11 @@ export class HealthBar {
 	 * @returns {void}
 	**/
 	createHealth() {
-		this.middle = this.scene.add.image(this.x, this.y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setDepth(1).setOrigin(0, 0.5).setScale(this.scaleX, this.scaleY);
+		this.remainingHealth = this.scene.add.image(this.x, this.y, HEALTH_BAR_ASSET_KEYS.MIDDLE).setDepth(1).setOrigin(0, 0.5).setScale(this.scaleX, this.scaleY);
 		this.shadow = this.scene.add.image(this.x, this.y, HEALTH_BAR_ASSET_KEYS.SHADOW).setDepth(0).setOrigin(0, 0.5).setScale(this.scaleX, this.scaleY);
-		this.middle.displayWidth = this.fullWidth;
+		this.remainingHealth.displayWidth = this.fullWidth;
 		this.shadow.displayWidth = this.fullWidth;
-		this.healthBarContainer = this.scene.add.container(this.x, this.y, [this.shadow, this.middle]);
+		this.healthBarContainer = this.scene.add.container(this.x, this.y, [this.shadow, this.remainingHealth]);
 	}
 
 	/**
@@ -58,7 +59,7 @@ export class HealthBar {
 	*/
 	setMeterPercentage(percent = 1) {
 		const width = this.fullWidth * percent;
-		this.middle.displayWidth = width;
+		this.remainingHealth.displayWidth = width;
 	}
 
 	/**
@@ -69,13 +70,13 @@ export class HealthBar {
 		const width = this.fullWidth * percent;
 
 		this.scene.tweens.add({
-			targets: this.middle,
+			targets: this.remainingHealth,
 			displayWidth: width,
 			duration: options?.duration || 1000,
 			ease: Phaser.Math.Easing.Sine.Out,
 			onUpdate: () => {
-				const isVisible = this.middle.displayWidth > 0;
-				this.middle.visible = isVisible;
+				const isVisible = this.remainingHealth.displayWidth > 0;
+				this.remainingHealth.visible = isVisible;
 
 			},
 			onComplete: options?.callback
