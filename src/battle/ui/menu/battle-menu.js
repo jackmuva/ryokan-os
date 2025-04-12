@@ -1,6 +1,6 @@
 import { CHARACTER_ASSET_KEYS, UI_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { exhaustiveGuard } from "../../../utils/guard.js";
-import { BATTLE_MOVE_OPTIONS, BATTLE_MENU_OPTIONS, ACTIVE_BATTLE_MENU } from "./battle-menu-options.js";
+import { BATTLE_MENU_OPTIONS, ACTIVE_BATTLE_MENU } from "./battle-menu-options.js";
 import { BATTLE_UI_TEXT_STYLE } from "./battle-menu-config.js";
 import { AttackMenu } from "./submenus/attack-menu.js";
 import { DIRECTION } from "../../../common/direction.js";
@@ -73,7 +73,6 @@ export class BattleMenu {
 	}
 
 	showMonsterAttackSubMenu() {
-		console.log('here');
 		this.activeBattleMenu = ACTIVE_BATTLE_MENU.ATTACK_SELECT;
 		this.attackSubMenu.showSubMenu();
 	}
