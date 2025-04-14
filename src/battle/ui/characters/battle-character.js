@@ -1,34 +1,8 @@
 import { HealthBar } from "../menu/health-bar.js";
-/**
- * @typedef BattleCharacterConfig
- * @type {Object}
- * @property {Phaser.Scene} scene
- * @property {Character} characterDetails
-*/
-
-/**
- * @typedef Character 
- * @type {Object}
- * @property {string} name 
- * @property {string} assetKey 
- * @property {number} [assetFrame=0] 
- * @property {number} maxHp 
- * @property {number} currentHp 
- * @property {number} baseAttack 
- * @property {string[]} attackIds 
-*/
-
-/** 
- * @typedef Coordinate
- * @type {Object}
- * @property {number} x
- * @property {number} y
-*/
-
 export class BattleCharacter {
 	/** @protected @type {Phaser.Scene} */
 	_scene;
-	/** @protected @type {Character} */
+	/** @protected @type {import("../../../types/typedef.js").Character} */
 	_characterDetails;
 	/** @protected @type {Phaser.GameObjects.Image} */
 	_characterObject;
@@ -36,8 +10,8 @@ export class BattleCharacter {
 	_healthBar;
 
 	/**
-	* @param {BattleCharacterConfig} config
-	* @param {Coordinate} position
+	* @param {import("../../../types/typedef.js").BattleCharacterConfig} config
+	* @param {import("../../../types/typedef.js").Coordinate} position
 	*/
 	constructor(config, position) {
 		this._scene = config.scene;

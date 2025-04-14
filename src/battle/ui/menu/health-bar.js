@@ -36,7 +36,6 @@ export class HealthBar {
 		this.healthBarContainer = this.scene.add.container(x, y, []);
 		this.createHealth();
 		this.setMeterPercentage(1);
-		this.setMeterAnimation(0.7);
 	}
 
 	get container() {
