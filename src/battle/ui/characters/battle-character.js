@@ -28,7 +28,9 @@ export class BattleCharacter {
 		this.characterAttacks = [];
 
 		this._healthBar = new HealthBar(this._scene, 20, 34);
-		this._characterObject = this._scene.add.image(position.x, position.y, this._characterDetails.assetKey, this._characterDetails.assetFrame || 0);
+		console.log(config);
+		this._characterObject = this._scene.add.image(position.x, position.y, this._characterDetails.assetKey, this._characterDetails.assetFrame || 0)
+			.setFlipX(config.characterDetails.flipImage ?? false);
 		this._characterObject.setDisplaySize(Number(this._scene.sys.game.config.width) / 5, Number(this._scene.sys.game.config.height) / 5);
 	}
 	get healthBar() {

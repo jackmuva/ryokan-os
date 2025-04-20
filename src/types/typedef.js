@@ -11,6 +11,7 @@ import Phaser from "../lib/phaser.js";
  * @typedef Character 
  * @type {Object}
  * @property {string} name 
+ * @property {boolean} [flipImage]
  * @property {string} assetKey 
  * @property {number} [assetFrame=0] 
  * @property {number} maxHp 

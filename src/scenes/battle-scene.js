@@ -4,9 +4,8 @@ import { SCENE_KEYS } from './scene-keys.js';
 import { BattleMenu } from '../battle/ui/menu/battle-menu.js';
 import { DIRECTION } from '../common/direction.js';
 import { Background } from '../battle/background.js';
-import { HealthBar } from '../battle/ui/menu/health-bar.js';
-import { BattleCharacter } from '../battle/ui/characters/battle-character.js';
 import { EnemyBattleCharacter } from '../battle/ui/characters/enemy-battle-character.js';
+import { MainBattleCharacter } from '../battle/ui/characters/main-battle-character.js';
 
 
 
@@ -19,6 +18,8 @@ export class BattleScene extends Phaser.Scene {
 	background;
 	/** @type {EnemyBattleCharacter} */
 	activeEnemy;
+	/** @type {MainBattleCharacter} */
+	mainCharacter;
 
 	constructor() {
 		super({
@@ -44,11 +45,25 @@ export class BattleScene extends Phaser.Scene {
 				}
 			}
 		);
+		this.mainCharacter = new MainBattleCharacter(
+			{
+				scene: this,
+				characterDetails: {
+					name: CHARACTER_ASSET_KEYS.MAIN_CHARACTER,
+					assetKey: CHARACTER_ASSET_KEYS.MAIN_CHARACTER,
+					flipImage: true,
+					assetFrame: 0,
+					currentHp: 25,
+					maxHp: 25,
+					attackIds: [],
+					baseAttack: 5
 
-		const main_char = this.add.image(256, 500, CHARACTER_ASSET_KEYS.MAIN_CHARACTER, 0).setFlipX(true);
-		main_char.setDisplaySize(Number(this.sys.game.config.width) / 5, Number(this.sys.game.config.height) / 5);
+				}
+			}
+		);
 
-		const playerHealth = new HealthBar(this, 20, 34).container;
+
+		const playerHealth = this.mainCharacter.healthBar.container;
 		const main_char_name = this.add.text(30, 20, CHARACTER_ASSET_KEYS.MAIN_CHARACTER, {
 			color: '#7E3D3F',
 			fontSize: '20px',
