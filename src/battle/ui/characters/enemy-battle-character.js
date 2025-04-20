@@ -3,7 +3,7 @@ import { BattleCharacter } from "./battle-character.js";
 /** @type {import("../../../types/typedef.js").Coordinate} */
 const ENEMY_POSITION = Object.freeze({
 	x: 768,
-	y: 200
+	y: 500
 });
 
 export class EnemyBattleCharacter extends BattleCharacter {

@@ -1,4 +1,5 @@
 import Phaser from "../lib/phaser.js";
+
 /**
  * @typedef BattleCharacterConfig
  * @type {Object}
@@ -15,7 +16,7 @@ import Phaser from "../lib/phaser.js";
  * @property {number} maxHp 
  * @property {number} currentHp 
  * @property {number} baseAttack 
- * @property {string[]} attackIds 
+ * @property {number[]} attackIds 
 */
 
 /** 
@@ -25,4 +26,10 @@ import Phaser from "../lib/phaser.js";
  * @property {number} y
 */
 
-
+/** 
+ * @typedef Attack
+ * @type {Object}
+ * @property {number} id
+ * @property {string} name
+ * @property {string} animationName
+*/

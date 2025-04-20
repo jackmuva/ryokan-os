@@ -6,6 +6,7 @@ import { DIRECTION } from '../common/direction.js';
 import { Background } from '../battle/background.js';
 import { HealthBar } from '../battle/ui/menu/health-bar.js';
 import { BattleCharacter } from '../battle/ui/characters/battle-character.js';
+import { EnemyBattleCharacter } from '../battle/ui/characters/enemy-battle-character.js';
 
 
 
@@ -16,7 +17,7 @@ export class BattleScene extends Phaser.Scene {
 	cursorKeys;
 	/** @type {Background} **/
 	background;
-	/** @type {BattleCharacter} */
+	/** @type {EnemyBattleCharacter} */
 	activeEnemy;
 
 	constructor() {
@@ -29,7 +30,7 @@ export class BattleScene extends Phaser.Scene {
 		this.background = new Background(this);
 		this.background.showTown();
 
-		this.activeEnemy = new BattleCharacter(
+		this.activeEnemy = new EnemyBattleCharacter(
 			{
 				scene: this,
 				characterDetails: {
@@ -41,8 +42,7 @@ export class BattleScene extends Phaser.Scene {
 					attackIds: [],
 					baseAttack: 5
 				}
-			},
-			{ x: 768, y: 500 }
+			}
 		);
 
 		const main_char = this.add.image(256, 500, CHARACTER_ASSET_KEYS.MAIN_CHARACTER, 0).setFlipX(true);
