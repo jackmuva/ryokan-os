@@ -18,6 +18,7 @@ import Phaser from "../lib/phaser.js";
  * @property {number} currentHp 
  * @property {number} baseAttack 
  * @property {number[]} attackIds 
+ * @property {number} level
 */
 
 /** 

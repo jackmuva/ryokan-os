@@ -1,4 +1,4 @@
-import { CHARACTER_ASSET_KEYS, BATTLE_ASSET_KEYS } from '../assets/asset-keys.js';
+import { CHARACTER_ASSET_KEYS } from '../assets/asset-keys.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { BattleMenu } from '../battle/ui/menu/battle-menu.js';
@@ -41,7 +41,8 @@ export class BattleScene extends Phaser.Scene {
 					currentHp: 25,
 					maxHp: 25,
 					attackIds: [],
-					baseAttack: 5
+					baseAttack: 5,
+					level: 5
 				}
 			}
 		);
@@ -51,66 +52,19 @@ export class BattleScene extends Phaser.Scene {
 				characterDetails: {
 					name: CHARACTER_ASSET_KEYS.MAIN_CHARACTER,
 					assetKey: CHARACTER_ASSET_KEYS.MAIN_CHARACTER,
-					flipImage: true,
 					assetFrame: 0,
 					currentHp: 25,
 					maxHp: 25,
 					attackIds: [],
-					baseAttack: 5
-
+					baseAttack: 5,
+					level: 5
 				}
 			}
 		);
 
-
-		const playerHealth = this.mainCharacter.healthBar.container;
-		const main_char_name = this.add.text(30, 20, CHARACTER_ASSET_KEYS.MAIN_CHARACTER, {
-			color: '#7E3D3F',
-			fontSize: '20px',
+		this.activeEnemy.takeDamage(10, () => {
+			this.mainCharacter.takeDamage(5);
 		});
-		this.add.container(100, 220, [
-			this.add.image(0, 0, BATTLE_ASSET_KEYS.HEALTH_BAR_BACKGROUND)
-				.setOrigin(0)
-				.setDisplaySize(Number(this.sys.game.config.width) / 4, Number(this.sys.game.config.height) / 4),
-			main_char_name,
-			playerHealth,
-			this.add.text(main_char_name.width + 35, 23, 'L5', {
-				color: '#ED474B',
-				fontSize: '16px',
-			}),
-			this.add.text(12, 62, 'HP', {
-				color: '#FF6505',
-				fontSize: '14px',
-				fontStyle: 'italic'
-			}),
-			this.add.text(240, 82, '25/25', {
-				color: '#7E3D3F',
-				fontSize: '12px',
-			}).setOrigin(1, 0),
-		]);
-
-		const enemyHealth = this.activeEnemy.healthBar.container;
-		const enemy_name = this.add.text(30, 20, CHARACTER_ASSET_KEYS.BLONDE_ELF, {
-			color: '#7E3D3F',
-			fontSize: '20px',
-		});
-		this.add.container(700, 220, [
-			this.add.image(0, 0, BATTLE_ASSET_KEYS.HEALTH_BAR_BACKGROUND)
-				.setOrigin(0)
-				.setDisplaySize(Number(this.sys.game.config.width) / 4, Number(this.sys.game.config.height) / 4),
-			enemy_name,
-			enemyHealth,
-			this.add.text(enemy_name.width + 35, 23, 'L5', {
-				color: '#ED474B',
-				fontSize: '16px',
-			}),
-			this.add.text(12, 62, 'HP', {
-				color: '#FF6505',
-				fontSize: '14px',
-				fontStyle: 'italic'
-			}),
-		]);
-
 		this.battleMenu = new BattleMenu(this);
 		this.battleMenu.showMainBattleMenu();
 

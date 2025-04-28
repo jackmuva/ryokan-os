@@ -6,11 +6,17 @@ const ENEMY_POSITION = Object.freeze({
 	y: 500
 });
 
+const HEALTH_POSITION = Object.freeze({
+	x: 700,
+	y: 220
+});
+
+
 export class EnemyBattleCharacter extends BattleCharacter {
 	/**
 	* @param {import("../../../types/typedef.js").BattleCharacterConfig} config
 	*/
 	constructor(config) {
-		super(config, ENEMY_POSITION);
+		super(config, ENEMY_POSITION, HEALTH_POSITION);
 	}
 }
