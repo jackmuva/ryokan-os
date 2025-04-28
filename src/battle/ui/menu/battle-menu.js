@@ -4,6 +4,7 @@ import { BATTLE_MENU_OPTIONS, ACTIVE_BATTLE_MENU } from "./battle-menu-options.j
 import { BATTLE_UI_TEXT_STYLE } from "./battle-menu-config.js";
 import { AttackMenu } from "./submenus/attack-menu.js";
 import { DIRECTION } from "../../../common/direction.js";
+import { BattleCharacter } from "../characters/battle-character.js";
 
 const BATTLE_MENU_CURSOR_POS = Object.freeze({
 	x: 45,
@@ -34,11 +35,17 @@ export class BattleMenu {
 	attackSubMenu;
 	/** @type {import("./battle-menu-options.js").ACTIVE_BATTLE_MENU} */
 	activeBattleMenu;
+	/** @type {BattleCharacter} */
+	activeCharacter;
 
 
-	/** @param {Phaser.Scene} scene **/
-	constructor(scene) {
+	/** 
+	 * @param {Phaser.Scene} scene 
+	 * @param {BattleCharacter} activeCharacter 
+	*/
+	constructor(scene, activeCharacter) {
 		this.scene = scene;
+		this.activeCharacter = activeCharacter;
 		this.activeBattleMenu = ACTIVE_BATTLE_MENU.BATTLE_MAIN;
 		this.selectedMenuOption = BATTLE_MENU_OPTIONS.FIGHT;
 		this.queuedInfoPanelCallback = undefined;
@@ -46,7 +53,7 @@ export class BattleMenu {
 		this.waitingForPlayerInput = false;
 		this.createMainInfoPane();
 		this.createMainBattleMenu();
-		this.attackSubMenu = new AttackMenu(scene);
+		this.attackSubMenu = new AttackMenu(scene, activeCharacter);
 	}
 
 	/** @types {number | undefined} */
@@ -254,7 +261,7 @@ export class BattleMenu {
 	createMainBattleMenu() {
 		this.createMainInfoSubPane();
 		this.menuTextLine1 = this.scene.add.text(20, 40, "what should ", BATTLE_UI_TEXT_STYLE);
-		this.menuTextLine2 = this.scene.add.text(20, 78, `${CHARACTER_ASSET_KEYS.MAIN_CHARACTER} do next?`, BATTLE_UI_TEXT_STYLE);
+		this.menuTextLine2 = this.scene.add.text(20, 78, `${this.activeCharacter.name} do next?`, BATTLE_UI_TEXT_STYLE);
 		this.cursorImage = this.scene.add.image(BATTLE_MENU_CURSOR_POS.x, BATTLE_MENU_CURSOR_POS.y, UI_ASSET_KEYS.CURSOR, 0).setOrigin(0.5).setScale(2.0);
 
 		this.mainMenu = this.scene.add.container(520, 0, [

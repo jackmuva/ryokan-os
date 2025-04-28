@@ -1,5 +1,5 @@
 import { HealthBar } from "../menu/health-bar.js";
-import { BATTLE_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { BATTLE_ASSET_KEYS, DATA_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { CHARACTER_ASSET_KEYS } from "../../../assets/asset-keys.js";
 
 export class BattleCharacter {
@@ -31,12 +31,22 @@ export class BattleCharacter {
 		this._characterDetails = config.characterDetails;
 		this._currentHealth = this._characterDetails.currentHp;
 		this._maxHealth = this._characterDetails.maxHp;
-		this.characterAttacks = [];
+		this._characterAttacks = [];
 
 		this._characterObject = this._scene.add.image(position.x, position.y, this._characterDetails.assetKey, this._characterDetails.assetFrame || 0);
 		this._characterObject.setDisplaySize(Number(this._scene.sys.game.config.width) / 5, Number(this._scene.sys.game.config.height) / 5);
 
 		this.createHealthBar(healthBarPosition.x, healthBarPosition.y);
+
+		/** @type {import("../../../types/typedef.js").Attack[]}*/
+		const data = this._scene.cache.json.get(DATA_ASSET_KEYS.ATTACKS);
+
+		this._characterDetails.attackIds.forEach((attackId) => {
+			const charAttack = data.find((attack) => attack.id === attackId);
+			if (charAttack !== undefined) {
+				this._characterAttacks.push(charAttack);
+			}
+		});
 	}
 	get healthBar() {
 		return this._healthBar;

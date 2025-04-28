@@ -3,6 +3,7 @@ import { exhaustiveGuard } from '../../../../utils/guard.js';
 import { BATTLE_MOVE_OPTIONS } from '../battle-menu-options.js';
 import { UI_ASSET_KEYS } from '../../../../assets/asset-keys.js';
 import { BATTLE_UI_TEXT_STYLE } from '../battle-menu-config.js';
+import { BattleCharacter } from '../../characters/battle-character.js';
 
 const BATTLE_MENU_CURSOR_POS = Object.freeze({
 	x: 45,
@@ -20,10 +21,16 @@ export class AttackMenu {
 	selectedMoveIndex;
 	/** @type {Phaser.GameObjects.Container} **/
 	subMenuObject;
+	/** @type {BattleCharacter} */
+	#activeCharacter;
 
-	/** @param {Phaser.Scene} scene **/
-	constructor(scene) {
+	/** 
+	 * @param {Phaser.Scene} scene 
+	 * @param {BattleCharacter} activeCharacter 
+	*/
+	constructor(scene, activeCharacter) {
 		this.scene = scene;
+		this.#activeCharacter = activeCharacter;
 		this.selectedMove = BATTLE_MOVE_OPTIONS.ATTACK_1;
 		this.selectedMoveIndex = undefined;
 		this.createSubMenu();
@@ -31,11 +38,18 @@ export class AttackMenu {
 
 	createSubMenu() {
 		this.cursorImage = this.scene.add.image(42, 38, UI_ASSET_KEYS.CURSOR, 0).setOrigin(0.5).setScale(2);
+
+		/** @type {string[]} */
+		const attackNames = [];
+		for (let i = 0; i < 4; i += 1) {
+			attackNames.push(this.#activeCharacter.attacks[i]?.name || '-');
+		}
+
 		this.subMenuObject = this.scene.add.container(520, 0, [
-			this.scene.add.text(55, 22, "slash", BATTLE_UI_TEXT_STYLE),
-			this.scene.add.text(240, 22, "-", BATTLE_UI_TEXT_STYLE),
-			this.scene.add.text(55, 70, "-", BATTLE_UI_TEXT_STYLE),
-			this.scene.add.text(240, 70, "-", BATTLE_UI_TEXT_STYLE),
+			this.scene.add.text(55, 22, attackNames[0], BATTLE_UI_TEXT_STYLE),
+			this.scene.add.text(240, 22, attackNames[1], BATTLE_UI_TEXT_STYLE),
+			this.scene.add.text(55, 70, attackNames[2], BATTLE_UI_TEXT_STYLE),
+			this.scene.add.text(240, 70, attackNames[3], BATTLE_UI_TEXT_STYLE),
 			this.cursorImage,
 		]);
 		this.hideSubMenu();

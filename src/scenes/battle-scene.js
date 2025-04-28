@@ -40,7 +40,7 @@ export class BattleScene extends Phaser.Scene {
 					assetFrame: 0,
 					currentHp: 25,
 					maxHp: 25,
-					attackIds: [],
+					attackIds: [2],
 					baseAttack: 5,
 					level: 5
 				}
@@ -55,7 +55,7 @@ export class BattleScene extends Phaser.Scene {
 					assetFrame: 0,
 					currentHp: 25,
 					maxHp: 25,
-					attackIds: [],
+					attackIds: [1],
 					baseAttack: 5,
 					level: 5
 				}
@@ -65,7 +65,7 @@ export class BattleScene extends Phaser.Scene {
 		this.activeEnemy.takeDamage(10, () => {
 			this.mainCharacter.takeDamage(5);
 		});
-		this.battleMenu = new BattleMenu(this);
+		this.battleMenu = new BattleMenu(this, this.mainCharacter);
 		this.battleMenu.showMainBattleMenu();
 
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -80,9 +80,7 @@ export class BattleScene extends Phaser.Scene {
 			}
 			console.log('Player selected the following move: ' + this.battleMenu.selectedAttack);
 			this.battleMenu.hideMonsterAttackSubMenu();
-			this.battleMenu.updateInfoPaneMessagesAndWaitForInput(['Your monster attacks the enemy'], () => {
-				this.battleMenu.showMainBattleMenu()
-			});
+			this.handleBattleSequence();
 			return;
 		}
 
@@ -108,5 +106,11 @@ export class BattleScene extends Phaser.Scene {
 
 		}
 	}
+	handleBattleSequence() {
+		this.playerAttack();
+	}
 
+	playerAttack() {
+		this.battleMenu.updateInfoPaneMessagesAndWaitForInput
+	}
 }
