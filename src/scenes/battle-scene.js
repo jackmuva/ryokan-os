@@ -20,11 +20,17 @@ export class BattleScene extends Phaser.Scene {
 	activeEnemy;
 	/** @type {MainBattleCharacter} */
 	mainCharacter;
+	/** @type {number} */
+	charAttackIndex;
 
 	constructor() {
 		super({
 			key: SCENE_KEYS.BATTLE_SCENE,
 		});
+	}
+
+	init() {
+		this.charAttackIndex = -1;
 	}
 
 	create() {
@@ -62,9 +68,6 @@ export class BattleScene extends Phaser.Scene {
 			}
 		);
 
-		this.activeEnemy.takeDamage(10, () => {
-			this.mainCharacter.takeDamage(5);
-		});
 		this.battleMenu = new BattleMenu(this, this.mainCharacter);
 		this.battleMenu.showMainBattleMenu();
 
@@ -78,7 +81,13 @@ export class BattleScene extends Phaser.Scene {
 			if (this.battleMenu.selectedAttack === undefined) {
 				return;
 			}
+
+			this.charAttackIndex = this.battleMenu.selectedAttack;
+			if (!this.mainCharacter.attacks[this.charAttackIndex]) {
+				return;
+			}
 			console.log('Player selected the following move: ' + this.battleMenu.selectedAttack);
+
 			this.battleMenu.hideMonsterAttackSubMenu();
 			this.handleBattleSequence();
 			return;
@@ -111,6 +120,24 @@ export class BattleScene extends Phaser.Scene {
 	}
 
 	playerAttack() {
-		this.battleMenu.updateInfoPaneMessagesAndWaitForInput
+		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
+			[`${this.mainCharacter.attacks[this.charAttackIndex].name}`],
+			this.time.delayedCall(500, () => {
+				this.activeEnemy.takeDamage(20, () => {
+					this.enemyAttack();
+				});
+			})
+		);
+	}
+
+	enemyAttack() {
+		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
+			[`${this.mainCharacter.attacks[0].name}`],
+			this.time.delayedCall(500, () => {
+				this.mainCharacter.takeDamage(20, () => {
+					this.battleMenu.showMainBattleMenu();
+				});
+			})
+		);
 	}
 }

@@ -27,7 +27,7 @@ export class BattleMenu {
 	selectedMenuOption;
 	/** @type {Array<string>} */
 	queuedInfoPanelMessages;
-	/** @type {() => void | undefined} */
+	/** @type {() => void | Phaser.Time.TimerEvent | undefined} */
 	queuedInfoPanelCallback;
 	/** @type{boolean} */
 	waitingForPlayerInput;
@@ -86,6 +86,7 @@ export class BattleMenu {
 
 
 	hideMonsterAttackSubMenu() {
+		this.activeBattleMenu = ACTIVE_BATTLE_MENU.BATTLE_MAIN;
 		this.attackSubMenu.hideSubMenu();
 	}
 
@@ -189,7 +190,7 @@ export class BattleMenu {
 
 	/** 
 	* @param {Array<string>} messages 
-	* @param {() => void} [callback] 
+	* @param {() => void | Phaser.Time.TimerEvent} [callback] 
 	*/
 	updateInfoPaneMessagesAndWaitForInput(messages, callback) {
 		this.queuedInfoPanelMessages = messages;
