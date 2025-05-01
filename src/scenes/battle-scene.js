@@ -122,18 +122,18 @@ export class BattleScene extends Phaser.Scene {
 	playerAttack() {
 		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
 			[`${this.mainCharacter.attacks[this.charAttackIndex].name}`],
-			this.time.delayedCall(500, () => {
+			() => {this.time.delayedCall(500, () => {
 				this.activeEnemy.takeDamage(20, () => {
 					this.enemyAttack();
 				});
-			})
+			})}
 		);
 	}
 
 	enemyAttack() {
 		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
 			[`${this.mainCharacter.attacks[0].name}`],
-			this.time.delayedCall(500, () => {
+			() => this.time.delayedCall(500, () => {
 				this.mainCharacter.takeDamage(20, () => {
 					this.battleMenu.showMainBattleMenu();
 				});

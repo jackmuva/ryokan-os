@@ -27,7 +27,7 @@ export class BattleMenu {
 	selectedMenuOption;
 	/** @type {Array<string>} */
 	queuedInfoPanelMessages;
-	/** @type {() => void | Phaser.Time.TimerEvent | undefined} */
+	/** @type {() => void | undefined} */
 	queuedInfoPanelCallback;
 	/** @type{boolean} */
 	waitingForPlayerInput;
@@ -190,7 +190,7 @@ export class BattleMenu {
 
 	/** 
 	* @param {Array<string>} messages 
-	* @param {() => void | Phaser.Time.TimerEvent} [callback] 
+	* @param {() => void } [callback] 
 	*/
 	updateInfoPaneMessagesAndWaitForInput(messages, callback) {
 		this.queuedInfoPanelMessages = messages;
