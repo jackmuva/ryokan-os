@@ -1,6 +1,7 @@
 import { HealthBar } from "../menu/health-bar.js";
 import { BATTLE_ASSET_KEYS, DATA_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { CHARACTER_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { DataUtils } from "../../../utils/data-utils.js";
 
 export class BattleCharacter {
 	/** @protected @type {Phaser.Scene} */
@@ -38,11 +39,8 @@ export class BattleCharacter {
 
 		this.createHealthBar(healthBarPosition.x, healthBarPosition.y);
 
-		/** @type {import("../../../types/typedef.js").Attack[]}*/
-		const data = this._scene.cache.json.get(DATA_ASSET_KEYS.ATTACKS);
-
 		this._characterDetails.attackIds.forEach((attackId) => {
-			const charAttack = data.find((attack) => attack.id === attackId);
+			const charAttack = DataUtils.getMonsterAttack(this._scene, attackId);
 			if (charAttack !== undefined) {
 				this._characterAttacks.push(charAttack);
 			}

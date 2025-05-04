@@ -62,7 +62,7 @@ export class BattleScene extends Phaser.Scene {
 					currentHp: 25,
 					maxHp: 25,
 					attackIds: [1],
-					baseAttack: 5,
+					baseAttack: 25,
 					level: 5
 				}
 			}
@@ -122,22 +122,59 @@ export class BattleScene extends Phaser.Scene {
 	playerAttack() {
 		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
 			[`${this.mainCharacter.attacks[this.charAttackIndex].name}`],
-			() => {this.time.delayedCall(500, () => {
-				this.activeEnemy.takeDamage(20, () => {
-					this.enemyAttack();
-				});
-			})}
+			() => {
+				this.time.delayedCall(500, () => {
+					this.activeEnemy.takeDamage(this.mainCharacter.baseAttack, () => {
+						this.enemyAttack();
+					});
+				})
+			}
 		);
 	}
 
 	enemyAttack() {
+		if (this.activeEnemy.isFainted) {
+			this.postBattleSequenceCheck();
+			return;
+		}
+
 		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
 			[`${this.mainCharacter.attacks[0].name}`],
 			() => this.time.delayedCall(500, () => {
-				this.mainCharacter.takeDamage(20, () => {
+				this.mainCharacter.takeDamage(this.activeEnemy.baseAttack, () => {
 					this.battleMenu.showMainBattleMenu();
 				});
 			})
+		);
+	}
+
+	postBattleSequenceCheck() {
+		if (this.activeEnemy.isFainted) {
+			this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
+				[`${this.activeEnemy.name} defeated`, 'You have gained some experience'],
+				() => {
+					this.transitionToNextScene();
+				}
+			);
+			return;
+		} else if (this.mainCharacter.isFainted) {
+			this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
+				[`${this.mainCharacter.name} fainted`, 'You were defeated, escaping to safety...'],
+				() => {
+					this.transitionToNextScene();
+				}
+			);
+			return;
+		}
+		this.battleMenu.showMainBattleMenu();
+	}
+
+	transitionToNextScene() {
+		this.cameras.main.fadeOut(600, 0, 0, 0);
+		this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE,
+			() => {
+				this.scene.start(SCENE_KEYS.BATTLE_SCENE);
+			}
 		);
 	}
 }
