@@ -6,6 +6,7 @@ import { DIRECTION } from '../common/direction.js';
 import { Background } from '../battle/background.js';
 import { EnemyBattleCharacter } from '../battle/ui/characters/enemy-battle-character.js';
 import { MainBattleCharacter } from '../battle/ui/characters/main-battle-character.js';
+import { StateMachine } from '../utils/state-machine.js';
 
 
 
@@ -22,6 +23,8 @@ export class BattleScene extends Phaser.Scene {
 	mainCharacter;
 	/** @type {number} */
 	charAttackIndex;
+	/** @type {StateMachine} */
+	battleStateMachine;
 
 	constructor() {
 		super({
@@ -70,6 +73,20 @@ export class BattleScene extends Phaser.Scene {
 
 		this.battleMenu = new BattleMenu(this, this.mainCharacter);
 		this.battleMenu.showMainBattleMenu();
+
+		this.battleStateMachine = new StateMachine('bottle', this);
+		this.battleStateMachine.addState({
+			name: 'INTRO',
+			onEnter: () => {
+				this.time.delayedCall(1000, () => {
+					this.battleStateMachine.setState('BATTLE');
+				})
+			},
+		});
+		this.battleStateMachine.addState({
+			name: 'BATTLE',
+		});
+		this.battleStateMachine.setState('INTRO');
 
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 	}
