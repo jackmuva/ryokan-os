@@ -66,7 +66,7 @@ export class BattleMenu {
 	showMainBattleMenu() {
 		this.activeBattleMenu = ACTIVE_BATTLE_MENU.BATTLE_MAIN;
 		this.mainMenu.setAlpha(1);
-		this.menuTextLine1.setAlpha(1);
+		this.menuTextLine1.setText("what should").setAlpha(1);
 		this.menuTextLine2.setAlpha(1);
 
 		this.selectedMenuOption = BATTLE_MENU_OPTIONS.FIGHT;
@@ -93,7 +93,7 @@ export class BattleMenu {
 	/** @param {import('../../../common/direction.js').Direction | 'OK' | 'CANCEL' } input */
 	handlePlayerInput(input) {
 		if (this.waitingForPlayerInput && (input === 'CANCEL' || input === "OK")) {
-			this.updateInfoPaneWithMessage();
+			this._updateInfoPaneWithMessage();
 			return;
 		}
 
@@ -110,7 +110,7 @@ export class BattleMenu {
 		}
 
 		if (this.activeBattleMenu === ACTIVE_BATTLE_MENU.BATTLE_MAIN) {
-			this.updateSelectedBattleMenuOptionFromInput(input);
+			this._updateSelectedBattleMenuOptionFromInput(input);
 			this.moveMainBattleMenuCursor();
 		} else if (this.activeBattleMenu === ACTIVE_BATTLE_MENU.ATTACK_SELECT) {
 			this.attackSubMenu.updateMoveFromInput(input);
@@ -118,8 +118,11 @@ export class BattleMenu {
 		}
 	}
 
-	/** @param {import("../../../common/direction.js").DIRECTION} direction */
-	updateSelectedBattleMenuOptionFromInput(direction) {
+	/** 
+	 * @private
+	 * @param {import("../../../common/direction.js").DIRECTION} direction 
+	 **/
+	_updateSelectedBattleMenuOptionFromInput(direction) {
 		if (this.selectedMenuOption === BATTLE_MENU_OPTIONS.FIGHT) {
 			switch (direction) {
 				case DIRECTION.RIGHT:
@@ -187,6 +190,18 @@ export class BattleMenu {
 		}
 		exhaustiveGuard(this.selectedMenuOption);
 	}
+	/** 
+		* @param {string} message 
+		* @param {() => void } [callback] 
+		*/
+	updateInfoPaneMessageNoInput(message, callback) {
+		this.menuTextLine1.setText('').setAlpha(1);
+		this.menuTextLine1.setText(message);
+		this.waitingForPlayerInput = false;
+		if (callback) {
+			callback();
+		}
+	}
 
 	/** 
 	* @param {Array<string>} messages 
@@ -196,10 +211,11 @@ export class BattleMenu {
 		this.queuedInfoPanelMessages = messages;
 		this.queuedInfoPanelCallback = callback;
 
-		this.updateInfoPaneWithMessage();
+		this._updateInfoPaneWithMessage();
 	}
 
-	updateInfoPaneWithMessage() {
+	/** @private */
+	_updateInfoPaneWithMessage() {
 		this.waitingForPlayerInput = false;
 		this.menuTextLine1.setText('').setAlpha(1);
 

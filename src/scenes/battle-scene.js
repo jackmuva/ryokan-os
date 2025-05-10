@@ -88,7 +88,16 @@ export class BattleScene extends Phaser.Scene {
 
 	update() {
 		this.battleStateMachine.update();
+
 		const wasSpacePressed = Phaser.Input.Keyboard.JustDown(this.cursorKeys.space);
+
+		if (wasSpacePressed && ([BATTLE_STATES.PRE_BATTLE_INFO.toString(), BATTLE_STATES.POST_ATTACK_CHECK.toString(), BATTLE_STATES.FLEE_ATTEMPT.toString()].indexOf(this.battleStateMachine.currentStateName) !== -1)) {
+			this.battleMenu.handlePlayerInput('OK');
+			return;
+		}
+		if (this.battleStateMachine.currentStateName !== BATTLE_STATES.PLAYER_INPUT) {
+			return;
+		}
 		if (wasSpacePressed) {
 			this.battleMenu.handlePlayerInput('OK');
 			if (this.battleMenu.selectedAttack === undefined) {
@@ -130,8 +139,8 @@ export class BattleScene extends Phaser.Scene {
 	}
 
 	playerAttack() {
-		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
-			[`${this.mainCharacter.attacks[this.charAttackIndex].name}`],
+		this.battleMenu.updateInfoPaneMessageNoInput(
+			`${this.mainCharacter.attacks[this.charAttackIndex].name}`,
 			() => {
 				this.time.delayedCall(500, () => {
 					this.activeEnemy.takeDamage(this.mainCharacter.baseAttack, () => {
@@ -148,8 +157,8 @@ export class BattleScene extends Phaser.Scene {
 			return;
 		}
 
-		this.battleMenu.updateInfoPaneMessagesAndWaitForInput(
-			[`${this.mainCharacter.attacks[0].name}`],
+		this.battleMenu.updateInfoPaneMessageNoInput(
+			`${this.mainCharacter.attacks[0].name}`,
 			() => this.time.delayedCall(500, () => {
 				this.mainCharacter.takeDamage(this.activeEnemy.baseAttack, () => {
 					this.battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
@@ -194,7 +203,7 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.INTRO,
 			onEnter: () => {
-				this.time.delayedCall(500, () => {
+				this.time.delayedCall(1200, () => {
 					this.battleStateMachine.setState(BATTLE_STATES.PRE_BATTLE_INFO);
 				});
 			}
@@ -202,8 +211,8 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.PRE_BATTLE_INFO,
 			onEnter: () => {
-				this.battleMenu.updateInfoPaneMessagesAndWaitForInput([`${this.activeEnemy.name} is ready`], () => {
-					this.time.delayedCall(500, () => {
+				this.battleMenu.updateInfoPaneMessageNoInput(`${this.activeEnemy.name} is ready`, () => {
+					this.time.delayedCall(1200, () => {
 						this.battleStateMachine.setState(BATTLE_STATES.BRING_OUT_CHAR);
 					});
 				});
@@ -212,8 +221,10 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.BRING_OUT_CHAR,
 			onEnter: () => {
-				this.battleMenu.updateInfoPaneMessagesAndWaitForInput([`go ${this.mainCharacter.name}`], () => {
-					this.battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
+				this.battleMenu.updateInfoPaneMessageNoInput(`go ${this.mainCharacter.name}`, () => {
+					this.time.delayedCall(1200, () => {
+						this.battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
+					})
 				});
 			}
 		});
