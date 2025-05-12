@@ -11,6 +11,10 @@ const BATTLE_MENU_CURSOR_POS = Object.freeze({
 	y: 36
 });
 
+const INPUT_CURSOR_POS = Object.freeze({
+	y: 46
+});
+
 
 export class BattleMenu {
 	/** @type {Phaser.Scene} **/
@@ -37,7 +41,10 @@ export class BattleMenu {
 	activeBattleMenu;
 	/** @type {BattleCharacter} */
 	activeCharacter;
-
+	/** @type {Phaser.GameObjects.Image} **/
+	inputCursorImage;
+	/** @type {Phaser.Tweens.Tween} */
+	inputCursorTween;
 
 	/** 
 	 * @param {Phaser.Scene} scene 
@@ -53,6 +60,7 @@ export class BattleMenu {
 		this.waitingForPlayerInput = false;
 		this.createMainInfoPane();
 		this.createMainBattleMenu();
+		this.createInputCursor();
 		this.attackSubMenu = new AttackMenu(scene, activeCharacter);
 	}
 
@@ -63,6 +71,21 @@ export class BattleMenu {
 		}
 		return undefined;
 	}
+
+	playInputCursorAnimation() {
+		this.inputCursorImage.setPosition(
+			this.menuTextLine1.displayWidth + this.inputCursorImage.displayWidth * 2.7,
+			this.inputCursorImage.y
+		);
+		this.inputCursorImage.setAlpha(1);
+		this.inputCursorTween.restart();
+	}
+
+	hideInputCursor() {
+		this.inputCursorImage.setAlpha(0);
+		this.inputCursorTween.pause();
+	}
+
 	showMainBattleMenu() {
 		this.activeBattleMenu = ACTIVE_BATTLE_MENU.BATTLE_MAIN;
 		this.mainMenu.setAlpha(1);
@@ -218,6 +241,7 @@ export class BattleMenu {
 	_updateInfoPaneWithMessage() {
 		this.waitingForPlayerInput = false;
 		this.menuTextLine1.setText('').setAlpha(1);
+		this.hideInputCursor();
 
 		if (this.queuedInfoPanelMessages.length === 0) {
 			if (this.queuedInfoPanelCallback) {
@@ -229,6 +253,7 @@ export class BattleMenu {
 		const messageToDisplay = this.queuedInfoPanelMessages.shift();
 		this.menuTextLine1.setText(messageToDisplay);
 		this.waitingForPlayerInput = true;
+		this.playInputCursorAnimation();
 	}
 
 	handlePlayerChooseMainBattleOption() {
@@ -317,7 +342,30 @@ export class BattleMenu {
 
 
 	switchToMainBattleMenu() {
+		this.waitingForPlayerInput = false;
+		this.hideInputCursor();
 		this.hideMonsterAttackSubMenu();
 		this.showMainBattleMenu();
 	}
+
+
+	createInputCursor() {
+		this.inputCursorImage = this.scene.add.image(0, 0, UI_ASSET_KEYS.CURSOR);
+		this.inputCursorImage.setAngle(90).setScale(2.5, 1.25);
+		this.inputCursorImage.setAlpha(0);
+
+		this.inputCursorTween = this.scene.add.tween({
+			delay: 0,
+			duration: 500,
+			repeat: -1,
+			y: {
+				from: INPUT_CURSOR_POS.y,
+				start: INPUT_CURSOR_POS.y,
+				to: INPUT_CURSOR_POS.y + 6
+			},
+			targets: this.inputCursorImage
+		});
+		this.inputCursorTween.pause();
+	}
+
 }
