@@ -1,10 +1,11 @@
-import { CHARACTER_ASSET_KEYS, UI_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { UI_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { exhaustiveGuard } from "../../../utils/guard.js";
 import { BATTLE_MENU_OPTIONS, ACTIVE_BATTLE_MENU } from "./battle-menu-options.js";
 import { BATTLE_UI_TEXT_STYLE } from "./battle-menu-config.js";
 import { AttackMenu } from "./submenus/attack-menu.js";
 import { DIRECTION } from "../../../common/direction.js";
 import { BattleCharacter } from "../characters/battle-character.js";
+import { animateText } from "../../../utils/text-utils.js";
 
 const BATTLE_MENU_CURSOR_POS = Object.freeze({
 	x: 45,
@@ -45,6 +46,10 @@ export class BattleMenu {
 	inputCursorImage;
 	/** @type {Phaser.Tweens.Tween} */
 	inputCursorTween;
+	/** @type {boolean} */
+	queuedMessagagesSkipAnimation;
+	/** @type {boolean} */
+	queuedMessageAnimationPlaying;
 
 	/** 
 	 * @param {Phaser.Scene} scene 
@@ -62,6 +67,8 @@ export class BattleMenu {
 		this.createMainBattleMenu();
 		this.createInputCursor();
 		this.attackSubMenu = new AttackMenu(scene, activeCharacter);
+		this.queuedMessagagesSkipAnimation = false;
+		this.queuedMessageAnimationPlaying = false;
 	}
 
 	/** @types {number | undefined} */
@@ -115,6 +122,10 @@ export class BattleMenu {
 
 	/** @param {import('../../../common/direction.js').Direction | 'OK' | 'CANCEL' } input */
 	handlePlayerInput(input) {
+		if (this.queuedMessageAnimationPlaying && input === 'OK') {
+			return;
+		}
+
 		if (this.waitingForPlayerInput && (input === 'CANCEL' || input === "OK")) {
 			this._updateInfoPaneWithMessage();
 			return;
@@ -216,23 +227,40 @@ export class BattleMenu {
 	/** 
 		* @param {string} message 
 		* @param {() => void } [callback] 
+		* @param {boolean} [skipAnimation = false]
 		*/
-	updateInfoPaneMessageNoInput(message, callback) {
+	updateInfoPaneMessageNoInput(message, callback, skipAnimation = false) {
 		this.menuTextLine1.setText('').setAlpha(1);
-		this.menuTextLine1.setText(message);
-		this.waitingForPlayerInput = false;
-		if (callback) {
-			callback();
+
+		if (skipAnimation) {
+			this.menuTextLine1.setText(message);
+			this.waitingForPlayerInput = false;
+			if (callback) {
+				callback();
+			}
+			return;
+		} else {
+			animateText(this.scene, this.menuTextLine1, message, {
+				delay: 50,
+				callback: () => {
+					this.waitingForPlayerInput = false;
+					if (callback) {
+						callback();
+					}
+				}
+			});
 		}
 	}
 
 	/** 
 	* @param {Array<string>} messages 
 	* @param {() => void } [callback] 
+	* @param {boolean} [skipAnimation = false]
 	*/
-	updateInfoPaneMessagesAndWaitForInput(messages, callback) {
+	updateInfoPaneMessagesAndWaitForInput(messages, callback, skipAnimation = false) {
 		this.queuedInfoPanelMessages = messages;
 		this.queuedInfoPanelCallback = callback;
+		this.queuedMessagagesSkipAnimation = skipAnimation;
 
 		this._updateInfoPaneWithMessage();
 	}
@@ -251,9 +279,25 @@ export class BattleMenu {
 			}
 		}
 		const messageToDisplay = this.queuedInfoPanelMessages.shift();
-		this.menuTextLine1.setText(messageToDisplay);
-		this.waitingForPlayerInput = true;
-		this.playInputCursorAnimation();
+		if (this.queuedMessagagesSkipAnimation) {
+			this.menuTextLine1.setText(messageToDisplay);
+			this.queuedMessageAnimationPlaying = false;
+			this.waitingForPlayerInput = true;
+			if (this.queuedInfoPanelCallback) {
+				this.queuedInfoPanelCallback();
+				this.queuedInfoPanelCallback = undefined;
+			}
+			return;
+		}
+		this.queuedMessageAnimationPlaying = true;
+		animateText(this.scene, this.menuTextLine1, messageToDisplay, {
+			delay: 50,
+			callback: () => {
+				this.playInputCursorAnimation();
+				this.waitingForPlayerInput = true;
+			}
+		});
+		this.queuedMessageAnimationPlaying = false;
 	}
 
 	handlePlayerChooseMainBattleOption() {
