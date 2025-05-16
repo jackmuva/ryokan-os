@@ -211,9 +211,13 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.PRE_BATTLE_INFO,
 			onEnter: () => {
-				this.battleMenu.updateInfoPaneMessageNoInput(`${this.activeEnemy.name} is ready`, () => {
-					this.time.delayedCall(1200, () => {
-						this.battleStateMachine.setState(BATTLE_STATES.BRING_OUT_CHAR);
+				this.activeEnemy.playEntranceAnimation(() => {
+					this.activeEnemy.playHealthbarEntranceAnimation(() => {
+						this.battleMenu.updateInfoPaneMessageNoInput(`${this.activeEnemy.name} is ready`, () => {
+							this.time.delayedCall(1200, () => {
+								this.battleStateMachine.setState(BATTLE_STATES.BRING_OUT_CHAR);
+							});
+						});
 					});
 				});
 			}
@@ -221,11 +225,15 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.BRING_OUT_CHAR,
 			onEnter: () => {
-				this.battleMenu.updateInfoPaneMessageNoInput(`go ${this.mainCharacter.name}`, () => {
-					this.time.delayedCall(1200, () => {
-						this.battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
-					})
-				});
+				this.mainCharacter.playEntranceAnimation(() => {
+					this.mainCharacter.playHealthbarEntranceAnimation(() => {
+						this.battleMenu.updateInfoPaneMessageNoInput(`go ${this.mainCharacter.name}`, () => {
+							this.time.delayedCall(1200, () => {
+								this.battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
+							})
+						});
+					});
+				})
 			}
 		});
 		this.battleStateMachine.addState({

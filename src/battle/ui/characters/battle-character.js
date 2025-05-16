@@ -1,6 +1,5 @@
 import { HealthBar } from "../menu/health-bar.js";
-import { BATTLE_ASSET_KEYS, DATA_ASSET_KEYS } from "../../../assets/asset-keys.js";
-import { CHARACTER_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { BATTLE_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { DataUtils } from "../../../utils/data-utils.js";
 
 export class BattleCharacter {
@@ -36,6 +35,7 @@ export class BattleCharacter {
 
 		this._characterObject = this._scene.add.image(position.x, position.y, this._characterDetails.assetKey, this._characterDetails.assetFrame || 0);
 		this._characterObject.setDisplaySize(Number(this._scene.sys.game.config.width) / 5, Number(this._scene.sys.game.config.height) / 5);
+		this._characterObject.setAlpha(0);
 
 		this.createHealthBar(healthBarPosition.x, healthBarPosition.y);
 
@@ -91,6 +91,38 @@ export class BattleCharacter {
 	}
 
 	/**
+	 * @param {() => void} callback
+	 * @returns {void}
+	 */
+	playEntranceAnimation(callback) {
+		throw new Error('playEntranceAnimation not implemented');
+	}
+
+	/**
+	 * @param {() => void} callback
+	 * @returns {void}
+	 */
+	playHealthbarEntranceAnimation(callback) {
+		throw new Error('playHealthbarEntranceAnimation not implemented');
+	}
+
+	/**
+	 * @param {() => void} callback
+	 * @returns {void}
+	 */
+	playDamageAnimation(callback) {
+		throw new Error('playDamageAnimation not implemented');
+	}
+
+	/**
+	 * @param {() => void} callback
+	 * @returns {void}
+	 */
+	playDefeatAnimation(callback) {
+		throw new Error('playDefeatAnimation not implemented');
+	}
+
+	/**
 	* @param {number} x
 	* @param {number} y
 	*/
@@ -121,7 +153,6 @@ export class BattleCharacter {
 			health,
 			levelText,
 			hpText
-		]);
-
+		]).setAlpha(0);;
 	}
 }
