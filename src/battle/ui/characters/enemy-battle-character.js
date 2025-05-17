@@ -24,15 +24,15 @@ export class EnemyBattleCharacter extends BattleCharacter {
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playEnemyEntranceAnimation(callback) {
-		super.playEntranceAnimation(ENEMY_POSITION.x, ENEMY_POSITION.y, callback);
+	playEntranceAnimation(callback) {
+		super.playEntranceAnimation(callback, ENEMY_POSITION.x, ENEMY_POSITION.y,);
 	}
 
 	/**
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playEnemyHealthbarEntranceAnimation(callback) {
-		super.playHealthbarEntranceAnimation(HEALTH_POSITION.x, HEALTH_POSITION.y, callback);
+	playHealthbarEntranceAnimation(callback) {
+		super.playHealthbarEntranceAnimation(callback, HEALTH_POSITION.x, HEALTH_POSITION.y,);
 	}
 }

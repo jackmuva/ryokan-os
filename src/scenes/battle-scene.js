@@ -228,8 +228,8 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.PRE_BATTLE_INFO,
 			onEnter: () => {
-				this.activeEnemy.playEnemyEntranceAnimation(() => undefined);
-				this.activeEnemy.playEnemyHealthbarEntranceAnimation(() => {
+				this.activeEnemy.playEntranceAnimation(() => undefined);
+				this.activeEnemy.playHealthbarEntranceAnimation(() => {
 					this.battleMenu.updateInfoPaneMessageNoInput(`${this.activeEnemy.name} is ready`, () => {
 						this.battleStateMachine.setState(BATTLE_STATES.BRING_OUT_CHAR);
 					},
@@ -241,8 +241,8 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.BRING_OUT_CHAR,
 			onEnter: () => {
-				this.mainCharacter.playMainCharEntranceAnimation(() => undefined);
-				this.mainCharacter.playMainCharHealthbarEntranceAnimation(() => {
+				this.mainCharacter.playEntranceAnimation(() => undefined);
+				this.mainCharacter.playHealthbarEntranceAnimation(() => {
 					this.battleMenu.updateInfoPaneMessageNoInput(`go ${this.mainCharacter.name}`, () => {
 						this.battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
 					},

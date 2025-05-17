@@ -52,16 +52,16 @@ export class MainBattleCharacter extends BattleCharacter {
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playMainCharEntranceAnimation(callback) {
-		super.playEntranceAnimation(MAIN_POSITION.x, MAIN_POSITION.y, callback);
+	playEntranceAnimation(callback) {
+		super.playEntranceAnimation(callback, MAIN_POSITION.x, MAIN_POSITION.y,);
 	}
 
 	/**
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playMainCharHealthbarEntranceAnimation(callback) {
-		super.playHealthbarEntranceAnimation(HEALTH_POSITION.x, HEALTH_POSITION.y, callback);
+	playHealthbarEntranceAnimation(callback) {
+		super.playHealthbarEntranceAnimation(callback, HEALTH_POSITION.x, HEALTH_POSITION.y,);
 	}
 
 }

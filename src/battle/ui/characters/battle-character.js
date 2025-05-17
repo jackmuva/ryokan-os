@@ -2,6 +2,9 @@ import { HealthBar } from "../menu/health-bar.js";
 import { BATTLE_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { DataUtils } from "../../../utils/data-utils.js";
 
+/**
+ * @class BattleCharacter
+ */
 export class BattleCharacter {
 	/** @protected @type {Phaser.Scene} */
 	_scene;
@@ -94,12 +97,12 @@ export class BattleCharacter {
 	}
 
 	/**
-	 * @param {number} x
-	 * @param {number} y
 	 * @param {() => void} callback
+	 * @param {number} [x]
+	 * @param {number} [y]
 	 * @returns {void}
 	 */
-	playEntranceAnimation(x, y, callback) {
+	playEntranceAnimation(callback, x, y) {
 		const startXPos = -30;
 		const endXPos = x;
 
@@ -129,12 +132,12 @@ export class BattleCharacter {
 	}
 
 	/**
-	 * @param {number} x
-	 * @param {number} y
 	 * @param {() => void} callback
+	 * @param {number} [x]
+	 * @param {number} [y]
 	 * @returns {void}
 	 */
-	playHealthbarEntranceAnimation(x, y, callback) {
+	playHealthbarEntranceAnimation(callback, x, y) {
 		const startXPos = -30;
 		const endXPos = x;
 
