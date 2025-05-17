@@ -98,21 +98,4 @@ export class MainBattleCharacter extends BattleCharacter {
 		});
 	}
 
-	/**
-	 * @param {() => void} callback
-	 * @returns {void}
-	 */
-	playDamageAnimation(callback) {
-		throw new Error('playDamageAnimation not implemented');
-	}
-
-	/**
-	 * @param {() => void} callback
-	 * @returns {void}
-	 */
-	playDefeatAnimation(callback) {
-		throw new Error('playDefeatAnimation not implemented');
-	}
-
-
 }

@@ -107,11 +107,26 @@ export class BattleCharacter {
 	}
 
 	/**
-	 * @param {() => void} callback
-	 * @returns {void}
-	 */
+		 * @param {() => void} callback
+		 * @returns {void}
+		 */
 	playDamageAnimation(callback) {
-		throw new Error('playDamageAnimation not implemented');
+		this._scene.tweens.add({
+			delay: 0,
+			duration: 150,
+			targets: this.characterObject,
+			alpha: {
+				from: 1,
+				start: 1,
+				to: 0
+			},
+			repeat: 10,
+			onComplete: () => {
+				this.characterObject.setAlpha(1);
+				callback();
+			}
+		});
+
 	}
 
 	/**
@@ -119,8 +134,25 @@ export class BattleCharacter {
 	 * @returns {void}
 	 */
 	playDefeatAnimation(callback) {
-		throw new Error('playDefeatAnimation not implemented');
+		const startYPos = this.characterObject.y;
+		const endYPos = this._scene.game.canvas.height + 70;
+
+		this._scene.tweens.add({
+			delay: 0,
+			duration: 900,
+			y: {
+				from: startYPos,
+				start: startYPos,
+				to: endYPos,
+			},
+			targets: this._characterObject,
+			onComplete: () => {
+				callback();
+			}
+		});
+
 	}
+
 
 	/**
 	* @param {number} x

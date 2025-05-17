@@ -241,7 +241,7 @@ export class BattleMenu {
 			return;
 		} else {
 			animateText(this.scene, this.menuTextLine1, message, {
-				delay: 50,
+				delay: 35,
 				callback: () => {
 					this.waitingForPlayerInput = false;
 					if (callback) {
@@ -291,7 +291,7 @@ export class BattleMenu {
 		}
 		this.queuedMessageAnimationPlaying = true;
 		animateText(this.scene, this.menuTextLine1, messageToDisplay, {
-			delay: 50,
+			delay: 35,
 			callback: () => {
 				this.playInputCursorAnimation();
 				this.waitingForPlayerInput = true;
