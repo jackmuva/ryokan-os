@@ -5,6 +5,7 @@ import Phaser from "../lib/phaser.js";
  * @type {Object}
  * @property {Phaser.Scene} scene
  * @property {Character} characterDetails
+ * @property {boolean} [skipAnimations=false]
 */
 
 /**

@@ -52,50 +52,16 @@ export class MainBattleCharacter extends BattleCharacter {
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playEntranceAnimation(callback) {
-		const startXPos = -30;
-		const endXPos = MAIN_POSITION.x;
-		this._characterObject.setPosition(startXPos, MAIN_POSITION.y);
-		this._characterObject.setAlpha(1);
-
-		this._scene.tweens.add({
-			delay: 0,
-			duration: 500,
-			x: {
-				from: startXPos,
-				start: startXPos,
-				to: endXPos,
-			},
-			targets: this._characterObject,
-			onComplete: () => {
-				callback();
-			}
-		});
+	playMainCharEntranceAnimation(callback) {
+		super.playEntranceAnimation(MAIN_POSITION.x, MAIN_POSITION.y, callback);
 	}
 
 	/**
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playHealthbarEntranceAnimation(callback) {
-		const startXPos = -30;
-		const endXPos = HEALTH_POSITION.x;
-		this._healthBarContainer.setPosition(startXPos, HEALTH_POSITION.y);
-		this._healthBarContainer.setAlpha(1);
-
-		this._scene.tweens.add({
-			delay: 0,
-			duration: 700,
-			x: {
-				from: startXPos,
-				start: startXPos,
-				to: endXPos,
-			},
-			targets: this._healthBarContainer,
-			onComplete: () => {
-				callback();
-			}
-		});
+	playMainCharHealthbarEntranceAnimation(callback) {
+		super.playHealthbarEntranceAnimation(HEALTH_POSITION.x, HEALTH_POSITION.y, callback);
 	}
 
 }

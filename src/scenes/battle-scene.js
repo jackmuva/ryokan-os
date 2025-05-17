@@ -7,6 +7,7 @@ import { Background } from '../battle/background.js';
 import { EnemyBattleCharacter } from '../battle/ui/characters/enemy-battle-character.js';
 import { MainBattleCharacter } from '../battle/ui/characters/main-battle-character.js';
 import { StateMachine } from '../utils/state-machine.js';
+import { SKIP_ANIMATIONS } from '../config.js';
 
 const BATTLE_STATES = Object.freeze({
 	INTRO: 'INTRO',
@@ -62,8 +63,9 @@ export class BattleScene extends Phaser.Scene {
 					attackIds: [2],
 					baseAttack: 5,
 					level: 5
-				}
-			}
+				},
+				skipAnimations: SKIP_ANIMATIONS
+			},
 		);
 		this.mainCharacter = new MainBattleCharacter(
 			{
@@ -77,7 +79,8 @@ export class BattleScene extends Phaser.Scene {
 					attackIds: [1],
 					baseAttack: 15,
 					level: 5
-				}
+				},
+				skipAnimations: SKIP_ANIMATIONS
 			}
 		);
 
@@ -149,7 +152,8 @@ export class BattleScene extends Phaser.Scene {
 						});
 					});
 				})
-			}
+			},
+			SKIP_ANIMATIONS
 		);
 	}
 
@@ -161,13 +165,16 @@ export class BattleScene extends Phaser.Scene {
 
 		this.battleMenu.updateInfoPaneMessageNoInput(
 			`${this.activeEnemy.name} used ${this.mainCharacter.attacks[0].name}`,
-			() => this.time.delayedCall(500, () => {
-				this.mainCharacter.playDamageAnimation(() => {
-					this.mainCharacter.takeDamage(this.activeEnemy.baseAttack, () => {
-						this.battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
+			() => {
+				this.time.delayedCall(500, () => {
+					this.mainCharacter.playDamageAnimation(() => {
+						this.mainCharacter.takeDamage(this.activeEnemy.baseAttack, () => {
+							this.battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
+						});
 					});
-				});
-			})
+				})
+			},
+			SKIP_ANIMATIONS
 		);
 	}
 
@@ -178,7 +185,8 @@ export class BattleScene extends Phaser.Scene {
 					[`${this.activeEnemy.name} defeated`, 'You have gained some experience'],
 					() => {
 						this.battleStateMachine.setState(BATTLE_STATES.FINISHED);
-					}
+					},
+					SKIP_ANIMATIONS
 				);
 			});
 			return;
@@ -188,7 +196,8 @@ export class BattleScene extends Phaser.Scene {
 					[`${this.mainCharacter.name} fainted`, 'You were defeated, escaping to safety...'],
 					() => {
 						this.battleStateMachine.setState(BATTLE_STATES.FINISHED);
-					}
+					},
+					SKIP_ANIMATIONS
 				);
 			});
 			return;
@@ -219,22 +228,26 @@ export class BattleScene extends Phaser.Scene {
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.PRE_BATTLE_INFO,
 			onEnter: () => {
-				this.activeEnemy.playEntranceAnimation(() => undefined);
-				this.activeEnemy.playHealthbarEntranceAnimation(() => {
+				this.activeEnemy.playEnemyEntranceAnimation(() => undefined);
+				this.activeEnemy.playEnemyHealthbarEntranceAnimation(() => {
 					this.battleMenu.updateInfoPaneMessageNoInput(`${this.activeEnemy.name} is ready`, () => {
 						this.battleStateMachine.setState(BATTLE_STATES.BRING_OUT_CHAR);
-					});
+					},
+						SKIP_ANIMATIONS
+					);
 				});
 			}
 		});
 		this.battleStateMachine.addState({
 			name: BATTLE_STATES.BRING_OUT_CHAR,
 			onEnter: () => {
-				this.mainCharacter.playEntranceAnimation(() => undefined);
-				this.mainCharacter.playHealthbarEntranceAnimation(() => {
+				this.mainCharacter.playMainCharEntranceAnimation(() => undefined);
+				this.mainCharacter.playMainCharHealthbarEntranceAnimation(() => {
 					this.battleMenu.updateInfoPaneMessageNoInput(`go ${this.mainCharacter.name}`, () => {
 						this.battleStateMachine.setState(BATTLE_STATES.PLAYER_INPUT);
-					});
+					},
+						SKIP_ANIMATIONS
+					);
 				})
 			}
 		});
@@ -275,7 +288,7 @@ export class BattleScene extends Phaser.Scene {
 			onEnter: () => {
 				this.battleMenu.updateInfoPaneMessagesAndWaitForInput(['got away safely'], () => {
 					this.battleStateMachine.setState(BATTLE_STATES.FINISHED);
-				});
+				}, SKIP_ANIMATIONS);
 			}
 		});
 

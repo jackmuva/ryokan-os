@@ -19,6 +19,8 @@ export class BattleCharacter {
 	_characterAttacks;
 	/** @protected @type {Phaser.GameObjects.Container} */
 	_healthBarContainer;
+	/** @protected @type {boolean} */
+	_skipAnimations;
 
 
 	/**
@@ -32,6 +34,7 @@ export class BattleCharacter {
 		this._currentHealth = this._characterDetails.currentHp;
 		this._maxHealth = this._characterDetails.maxHp;
 		this._characterAttacks = [];
+		this._skipAnimations = config.skipAnimations || false;
 
 		this._characterObject = this._scene.add.image(position.x, position.y, this._characterDetails.assetKey, this._characterDetails.assetFrame || 0);
 		this._characterObject.setDisplaySize(Number(this._scene.sys.game.config.width) / 5, Number(this._scene.sys.game.config.height) / 5);
@@ -91,19 +94,72 @@ export class BattleCharacter {
 	}
 
 	/**
+	 * @param {number} x
+	 * @param {number} y
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playEntranceAnimation(callback) {
-		throw new Error('playEntranceAnimation not implemented');
+	playEntranceAnimation(x, y, callback) {
+		const startXPos = -30;
+		const endXPos = x;
+
+		if (this._skipAnimations) {
+			this._characterObject.setX(x).setAlpha(1);
+			callback();
+			return;
+		}
+
+
+		this._characterObject.setPosition(startXPos, y);
+		this._characterObject.setAlpha(1);
+
+		this._scene.tweens.add({
+			delay: 0,
+			duration: 500,
+			x: {
+				from: startXPos,
+				start: startXPos,
+				to: endXPos,
+			},
+			targets: this._characterObject,
+			onComplete: () => {
+				callback();
+			}
+		});
 	}
 
 	/**
+	 * @param {number} x
+	 * @param {number} y
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playHealthbarEntranceAnimation(callback) {
-		throw new Error('playHealthbarEntranceAnimation not implemented');
+	playHealthbarEntranceAnimation(x, y, callback) {
+		const startXPos = -30;
+		const endXPos = x;
+
+		if (this._skipAnimations) {
+			this._healthBarContainer.setX(x).setAlpha(1);
+			callback();
+			return;
+		}
+
+		this._healthBarContainer.setPosition(startXPos, y);
+		this._healthBarContainer.setAlpha(1);
+
+		this._scene.tweens.add({
+			delay: 0,
+			duration: 700,
+			x: {
+				from: startXPos,
+				start: startXPos,
+				to: endXPos,
+			},
+			targets: this._healthBarContainer,
+			onComplete: () => {
+				callback();
+			}
+		});
 	}
 
 	/**
@@ -111,6 +167,12 @@ export class BattleCharacter {
 		 * @returns {void}
 		 */
 	playDamageAnimation(callback) {
+		if (this._skipAnimations) {
+			this._characterObject.setAlpha(1);
+			callback();
+			return;
+		}
+
 		this._scene.tweens.add({
 			delay: 0,
 			duration: 150,
@@ -136,6 +198,13 @@ export class BattleCharacter {
 	playDefeatAnimation(callback) {
 		const startYPos = this.characterObject.y;
 		const endYPos = this._scene.game.canvas.height + 70;
+
+		if (this._skipAnimations) {
+			this._characterObject.setY(endYPos);
+			callback();
+			return;
+		}
+
 
 		this._scene.tweens.add({
 			delay: 0,

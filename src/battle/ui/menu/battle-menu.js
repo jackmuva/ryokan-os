@@ -6,6 +6,7 @@ import { AttackMenu } from "./submenus/attack-menu.js";
 import { DIRECTION } from "../../../common/direction.js";
 import { BattleCharacter } from "../characters/battle-character.js";
 import { animateText } from "../../../utils/text-utils.js";
+import { SKIP_ANIMATIONS } from "../../../config.js";
 
 const BATTLE_MENU_CURSOR_POS = Object.freeze({
 	x: 45,
@@ -283,10 +284,7 @@ export class BattleMenu {
 			this.menuTextLine1.setText(messageToDisplay);
 			this.queuedMessageAnimationPlaying = false;
 			this.waitingForPlayerInput = true;
-			if (this.queuedInfoPanelCallback) {
-				this.queuedInfoPanelCallback();
-				this.queuedInfoPanelCallback = undefined;
-			}
+			this.playInputCursorAnimation();
 			return;
 		}
 		this.queuedMessageAnimationPlaying = true;
@@ -310,19 +308,20 @@ export class BattleMenu {
 			this.activeBattleMenu = ACTIVE_BATTLE_MENU.ITEM_SELECT;
 			this.updateInfoPaneMessagesAndWaitForInput(['Your bag is empty'], () => {
 				this.switchToMainBattleMenu();
-			});
+			},
+				SKIP_ANIMATIONS);
 			return;
 		} else if (this.selectedMenuOption === BATTLE_MENU_OPTIONS.FLEE) {
 			this.activeBattleMenu = ACTIVE_BATTLE_MENU.FLEE;
 			this.updateInfoPaneMessagesAndWaitForInput(['You fail to flee'], () => {
 				this.switchToMainBattleMenu();
-			});
+			}, SKIP_ANIMATIONS);
 			return;
 		} else if (this.selectedMenuOption === BATTLE_MENU_OPTIONS.PASS) {
 			this.activeBattleMenu = ACTIVE_BATTLE_MENU.PASS;
 			this.updateInfoPaneMessagesAndWaitForInput(['Turn passed'], () => {
 				this.switchToMainBattleMenu();
-			});
+			}, SKIP_ANIMATIONS);
 			return;
 		}
 

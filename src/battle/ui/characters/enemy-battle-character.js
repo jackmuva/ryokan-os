@@ -24,50 +24,15 @@ export class EnemyBattleCharacter extends BattleCharacter {
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playEntranceAnimation(callback) {
-		const startXPos = this._scene.game.canvas.width + 30;
-		const endXPos = ENEMY_POSITION.x;
-		this._characterObject.setPosition(startXPos, ENEMY_POSITION.y);
-		this._characterObject.setAlpha(1);
-
-		this._scene.tweens.add({
-			delay: 0,
-			duration: 500,
-			x: {
-				from: startXPos,
-				start: startXPos,
-				to: endXPos,
-			},
-			targets: this._characterObject,
-			onComplete: () => {
-				callback();
-			}
-		});
+	playEnemyEntranceAnimation(callback) {
+		super.playEntranceAnimation(ENEMY_POSITION.x, ENEMY_POSITION.y, callback);
 	}
 
 	/**
 	 * @param {() => void} callback
 	 * @returns {void}
 	 */
-	playHealthbarEntranceAnimation(callback) {
-		const startXPos = this._scene.game.canvas.width + 30;
-		const endXPos = HEALTH_POSITION.x;
-		this._healthBarContainer.setPosition(startXPos, HEALTH_POSITION.y);
-		this._healthBarContainer.setAlpha(1);
-
-		this._scene.tweens.add({
-			delay: 0,
-			duration: 500,
-			x: {
-				from: startXPos,
-				start: startXPos,
-				to: endXPos,
-			},
-			targets: this._healthBarContainer,
-			onComplete: () => {
-				callback();
-			}
-		});
-
+	playEnemyHealthbarEntranceAnimation(callback) {
+		super.playHealthbarEntranceAnimation(HEALTH_POSITION.x, HEALTH_POSITION.y, callback);
 	}
 }
