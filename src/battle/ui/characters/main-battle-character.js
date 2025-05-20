@@ -1,3 +1,4 @@
+import { FONT_NAME } from "../../../assets/font-keys.js";
 import { BattleCharacter } from "./battle-character.js";
 
 /** @type {import("../../../types/typedef.js").Coordinate} */
@@ -34,6 +35,7 @@ export class MainBattleCharacter extends BattleCharacter {
 		this.healthBarDetails = this._scene.add.text(240, 82, '', {
 			color: '#7E3D3F',
 			fontSize: '12px',
+			fontFamily: FONT_NAME
 		}).setOrigin(1, 0);
 		this.setHealthBarText();
 		this._healthBarContainer.add(this.healthBarDetails);

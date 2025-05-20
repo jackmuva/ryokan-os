@@ -3,7 +3,6 @@ import { BattleScene } from './scenes/battle-scene.js';
 import { SCENE_KEYS } from './scenes/scene-keys.js';
 import Phaser from './lib/phaser.js';
 
-console.log("main");
 const game = new Phaser.Game({
 	type: Phaser.CANVAS,
 	pixelArt: false,

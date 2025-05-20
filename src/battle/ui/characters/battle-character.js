@@ -1,6 +1,7 @@
 import { HealthBar } from "../menu/health-bar.js";
 import { BATTLE_ASSET_KEYS } from "../../../assets/asset-keys.js";
 import { DataUtils } from "../../../utils/data-utils.js";
+import { FONT_NAME } from "../../../assets/font-keys.js";
 
 /**
  * @class BattleCharacter
@@ -237,6 +238,7 @@ export class BattleCharacter {
 		const name = this._scene.add.text(30, 20, this._characterDetails.assetKey, {
 			color: '#7E3D3F',
 			fontSize: '20px',
+			fontFamily: FONT_NAME
 		});
 		const healthBarBackground = this._scene.add.image(0, 0, BATTLE_ASSET_KEYS.HEALTH_BAR_BACKGROUND)
 			.setOrigin(0)
@@ -244,11 +246,13 @@ export class BattleCharacter {
 		const levelText = this._scene.add.text(name.width + 35, 23, `L${this.level}`, {
 			color: '#ED474B',
 			fontSize: '16px',
+			fontFamily: FONT_NAME
 		})
 		const hpText = this._scene.add.text(12, 62, 'HP', {
 			color: '#FF6505',
 			fontSize: '14px',
-			fontStyle: 'italic'
+			fontStyle: 'italic',
+			fontFamily: FONT_NAME
 		})
 
 		this._healthBarContainer = this._scene.add.container(x, y, [
