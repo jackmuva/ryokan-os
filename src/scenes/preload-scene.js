@@ -1,4 +1,4 @@
-import { BATTLE_ASSET_KEYS, BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, DATA_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS, UI_ASSET_KEYS } from '../assets/asset-keys.js';
+import { BATTLE_ASSET_KEYS, BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, DATA_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS, UI_ASSET_KEYS, ATTACK_ASSET_KEYS } from '../assets/asset-keys.js';
 import { FONT_NAME } from '../assets/font-keys.js';
 import { WebFontFileLoader } from '../assets/web-font-file-loader.js';
 import Phaser from '../lib/phaser.js';
@@ -55,6 +55,22 @@ export class PreloadScene extends Phaser.Scene {
 		);
 
 		this.load.addFile(new WebFontFileLoader(this.load, [FONT_NAME]));
+
+		this.load.spritesheet(ATTACK_ASSET_KEYS.ICE_SHARD, 'assets/images/attacks/Ice\ Effect\ 01/ICE\ VFX\ 1/Ice\ VFX\ 1\ Hit.png', {
+			frameWidth: 32,
+			frameHeight: 32,
+		});
+
+		this.load.spritesheet(ATTACK_ASSET_KEYS.ICE_SHARD_START, 'assets/images/attacks/Ice\ Effect\ 01/ICE\ VFX\ 1/Ice\ VFX\ 1\ Start.png', {
+			frameWidth: 32,
+			frameHeight: 32,
+		});
+
+		this.load.spritesheet(ATTACK_ASSET_KEYS.ICE_SHARD, 'assets/images/attacks/Smear/Smear\ 01\ Horizontal\ 1.png', {
+			frameWidth: 48,
+			frameHeight: 48,
+		});
+
 	}
 
 	create() {
