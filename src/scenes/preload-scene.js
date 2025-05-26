@@ -66,7 +66,7 @@ export class PreloadScene extends Phaser.Scene {
 			frameHeight: 32,
 		});
 
-		this.load.spritesheet(ATTACK_ASSET_KEYS.ICE_SHARD, 'assets/images/attacks/Smear/Smear\ 01\ Horizontal\ 1.png', {
+		this.load.spritesheet(ATTACK_ASSET_KEYS.SLASH, 'assets/images/attacks/Smear\ VFX\ 01/Smear\ 01\ Horizontal\ 1.png', {
 			frameWidth: 48,
 			frameHeight: 48,
 		});

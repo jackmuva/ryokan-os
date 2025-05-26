@@ -4,7 +4,7 @@ import { Attack } from "./attack.js";
 
 export class IceShardAttack extends Attack {
 	/** @protected @type {Phaser.GameObjects.Sprite} */
-	_attackObject
+	_attackObject;
 
 	/**
 	* @param {Phaser.Scene} scene

@@ -9,6 +9,7 @@ import { MainBattleCharacter } from '../battle/ui/characters/main-battle-charact
 import { StateMachine } from '../utils/state-machine.js';
 import { SKIP_ANIMATIONS } from '../config.js';
 import { IceShardAttack } from '../battle/attacks/ice-shard-attack.js';
+import { SlashAttack } from '../battle/attacks/slash-attack.js';
 
 const BATTLE_STATES = Object.freeze({
 	INTRO: 'INTRO',
@@ -89,8 +90,9 @@ export class BattleScene extends Phaser.Scene {
 		this.createBattleStateMachine();
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
 
-		const atk = new IceShardAttack(this, { x: 760, y: 470 });
-		atk.playAnimation(() => atk.playAnimation());
+		const atk = new SlashAttack(this, { x: 760, y: 470 });
+		const ice_atk = new IceShardAttack(this, { x: 760, y: 470 });
+		atk.playAnimation(() => ice_atk.playAnimation());
 	}
 
 	update() {
