@@ -1,1 +1,1 @@
-export const SKIP_ANIMATIONS = true;
+export const SKIP_ANIMATIONS = false;

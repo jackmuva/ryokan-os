@@ -8,8 +8,7 @@ import { EnemyBattleCharacter } from '../battle/ui/characters/enemy-battle-chara
 import { MainBattleCharacter } from '../battle/ui/characters/main-battle-character.js';
 import { StateMachine } from '../utils/state-machine.js';
 import { SKIP_ANIMATIONS } from '../config.js';
-import { IceShardAttack } from '../battle/attacks/ice-shard-attack.js';
-import { SlashAttack } from '../battle/attacks/slash-attack.js';
+import { ATTACK_TARGET, AttackManager } from '../battle/attacks/attack-manager.js';
 
 const BATTLE_STATES = Object.freeze({
 	INTRO: 'INTRO',
@@ -38,6 +37,8 @@ export class BattleScene extends Phaser.Scene {
 	charAttackIndex;
 	/** @type {StateMachine} */
 	battleStateMachine;
+	/** @type {AttackManager} */
+	_attackManager;
 
 	constructor() {
 		super({
@@ -62,7 +63,7 @@ export class BattleScene extends Phaser.Scene {
 					assetFrame: 0,
 					currentHp: 25,
 					maxHp: 25,
-					attackIds: [2],
+					attackIds: [1],
 					baseAttack: 5,
 					level: 5
 				},
@@ -78,7 +79,7 @@ export class BattleScene extends Phaser.Scene {
 					assetFrame: 0,
 					currentHp: 25,
 					maxHp: 25,
-					attackIds: [1],
+					attackIds: [0],
 					baseAttack: 15,
 					level: 5
 				},
@@ -88,11 +89,8 @@ export class BattleScene extends Phaser.Scene {
 
 		this.battleMenu = new BattleMenu(this, this.mainCharacter);
 		this.createBattleStateMachine();
+		this._attackManager = new AttackManager(this, SKIP_ANIMATIONS);
 		this.cursorKeys = this.input.keyboard.createCursorKeys();
-
-		const atk = new SlashAttack(this, { x: 760, y: 470 });
-		const ice_atk = new IceShardAttack(this, { x: 760, y: 470 });
-		atk.playAnimation(() => ice_atk.playAnimation());
 	}
 
 	update() {
@@ -152,10 +150,13 @@ export class BattleScene extends Phaser.Scene {
 			`${this.mainCharacter.name} used ${this.mainCharacter.attacks[this.charAttackIndex].name}`,
 			() => {
 				this.time.delayedCall(500, () => {
-					this.activeEnemy.playDamageAnimation(() => {
-						this.activeEnemy.takeDamage(this.mainCharacter.baseAttack, () => {
-							this.enemyAttack();
+					this._attackManager.playAttackAnimation(this.mainCharacter.attacks[this.charAttackIndex].animationName, ATTACK_TARGET.ENEMY, () => {
+						this.activeEnemy.playDamageAnimation(() => {
+							this.activeEnemy.takeDamage(this.mainCharacter.baseAttack, () => {
+								this.enemyAttack();
+							});
 						});
+
 					});
 				})
 			},
@@ -173,9 +174,11 @@ export class BattleScene extends Phaser.Scene {
 			`${this.activeEnemy.name} used ${this.mainCharacter.attacks[0].name}`,
 			() => {
 				this.time.delayedCall(500, () => {
-					this.mainCharacter.playDamageAnimation(() => {
-						this.mainCharacter.takeDamage(this.activeEnemy.baseAttack, () => {
-							this.battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
+					this._attackManager.playAttackAnimation(this.activeEnemy.attacks[0].animationName, ATTACK_TARGET.PLAYER, () => {
+						this.mainCharacter.playDamageAnimation(() => {
+							this.mainCharacter.takeDamage(this.activeEnemy.baseAttack, () => {
+								this.battleStateMachine.setState(BATTLE_STATES.POST_ATTACK_CHECK);
+							});
 						});
 					});
 				})

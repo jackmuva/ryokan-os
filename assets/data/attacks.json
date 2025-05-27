@@ -1,12 +1,12 @@
 [
 	{
-		"id": 1,
+		"id": 0,
 		"name": "ice shard",
-		"animation": "ICE_SHARD"
+		"animationName": "ICE_SHARD"
 	},
 {
-		"id": 2,
+		"id": 1,
 		"name": "slash",
-		"animation": "SLASH"
+		"animationName": "SLASH"
 	}
 ]
