@@ -1,6 +1,6 @@
-import { BATTLE_ASSET_KEYS, BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, DATA_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS, UI_ASSET_KEYS, ATTACK_ASSET_KEYS } from '../assets/asset-keys.js';
-import { FONT_NAME } from '../assets/font-keys.js';
-import { WebFontFileLoader } from '../assets/web-font-file-loader.js';
+import { BATTLE_ASSET_KEYS, BATTLE_BACKGROUND_ASSET_KEYS, CHARACTER_ASSET_KEYS, DATA_ASSET_KEYS, HEALTH_BAR_ASSET_KEYS, UI_ASSET_KEYS, ATTACK_ASSET_KEYS, WORLD_ASSET_KEYS } from '../asset-utils/asset-keys.js';
+import { FONT_NAME } from '../asset-utils/font-keys.js';
+import { WebFontFileLoader } from '../asset-utils/web-font-file-loader.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 
@@ -71,10 +71,16 @@ export class PreloadScene extends Phaser.Scene {
 			frameHeight: 48,
 		});
 
+		this.load.image(
+			WORLD_ASSET_KEYS.WORLD_BACKGROUND,
+			'assets/map/level_background.png'
+		);
+
 	}
 
 	create() {
-		this.scene.start(SCENE_KEYS.BATTLE_SCENE);
+		//this.scene.start(SCENE_KEYS.BATTLE_SCENE);
+		this.scene.start(SCENE_KEYS.WORLD_SCENE);
 	}
 
 	update() {

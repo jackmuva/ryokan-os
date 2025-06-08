@@ -1,5 +1,5 @@
 import Phaser from "../../lib/phaser.js";
-import { ATTACK_ASSET_KEYS } from "../../assets/asset-keys.js";
+import { ATTACK_ASSET_KEYS } from "../../asset-utils/asset-keys.js";
 import { Attack } from "./attack.js";
 
 export class IceShardAttack extends Attack {

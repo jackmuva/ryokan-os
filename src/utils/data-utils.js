@@ -1,5 +1,5 @@
 
-import { DATA_ASSET_KEYS } from "../assets/asset-keys.js";
+import { DATA_ASSET_KEYS } from "../asset-utils/asset-keys.js";
 export class DataUtils {
 	/** 
 	 * @param {Phaser.Scene} scene

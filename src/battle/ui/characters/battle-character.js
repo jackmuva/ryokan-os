@@ -1,7 +1,7 @@
 import { HealthBar } from "../menu/health-bar.js";
-import { BATTLE_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { BATTLE_ASSET_KEYS } from "../../../asset-utils/asset-keys.js";
 import { DataUtils } from "../../../utils/data-utils.js";
-import { FONT_NAME } from "../../../assets/font-keys.js";
+import { FONT_NAME } from "../../../asset-utils/font-keys.js";
 
 /**
  * @class BattleCharacter

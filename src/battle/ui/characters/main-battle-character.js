@@ -1,4 +1,4 @@
-import { FONT_NAME } from "../../../assets/font-keys.js";
+import { FONT_NAME } from "../../../asset-utils/font-keys.js";
 import { BattleCharacter } from "./battle-character.js";
 
 /** @type {import("../../../types/typedef.js").Coordinate} */

@@ -1,4 +1,4 @@
-import { CHARACTER_ASSET_KEYS } from '../assets/asset-keys.js';
+import { CHARACTER_ASSET_KEYS } from '../asset-utils/asset-keys.js';
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scene-keys.js';
 import { BattleMenu } from '../battle/ui/menu/battle-menu.js';

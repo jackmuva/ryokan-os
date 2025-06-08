@@ -1,4 +1,4 @@
-import { UI_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { UI_ASSET_KEYS } from "../../../asset-utils/asset-keys.js";
 import { exhaustiveGuard } from "../../../utils/guard.js";
 import { BATTLE_MENU_OPTIONS, ACTIVE_BATTLE_MENU } from "./battle-menu-options.js";
 import { BATTLE_UI_TEXT_STYLE } from "./battle-menu-config.js";

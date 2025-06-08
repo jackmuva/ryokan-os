@@ -1,7 +1,7 @@
 import { DIRECTION } from '../../../../common/direction.js';
 import { exhaustiveGuard } from '../../../../utils/guard.js';
 import { BATTLE_MOVE_OPTIONS } from '../battle-menu-options.js';
-import { UI_ASSET_KEYS } from '../../../../assets/asset-keys.js';
+import { UI_ASSET_KEYS } from '../../../../asset-utils/asset-keys.js';
 import { BATTLE_UI_TEXT_STYLE } from '../battle-menu-config.js';
 import { BattleCharacter } from '../../characters/battle-character.js';
 

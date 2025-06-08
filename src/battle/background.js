@@ -1,4 +1,4 @@
-import { BATTLE_BACKGROUND_ASSET_KEYS } from "../assets/asset-keys.js";
+import { BATTLE_BACKGROUND_ASSET_KEYS } from "../asset-utils/asset-keys.js";
 import Phaser from "../lib/phaser.js";
 
 export class Background {

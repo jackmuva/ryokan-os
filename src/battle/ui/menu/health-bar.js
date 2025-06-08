@@ -1,5 +1,5 @@
 import Phaser from "../../../lib/phaser.js";
-import { HEALTH_BAR_ASSET_KEYS } from "../../../assets/asset-keys.js";
+import { HEALTH_BAR_ASSET_KEYS } from "../../../asset-utils/asset-keys.js";
 
 export class HealthBar {
 	/** @type {Phaser.Scene} */

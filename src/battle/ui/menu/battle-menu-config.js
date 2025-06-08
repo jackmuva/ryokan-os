@@ -1,4 +1,4 @@
-import { FONT_NAME } from '../../../assets/font-keys.js';
+import { FONT_NAME } from '../../../asset-utils/font-keys.js';
 import Phaser from '../../../lib/phaser.js'
 
 /** @type {Phaser.Types.GameObjects.Text.TextStyle} */
